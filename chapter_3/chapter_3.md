@@ -242,7 +242,10 @@ As soon as we make a selection, a new **scatter plot** will be generated, showin
 > <title>Wine dataset: Interactive Feature Exploration</title>
 > ```
 
-To make things more fun, 
+To make things more fun
+
+**NOTE**: The text needs to be completed, but the final solution in the template is done!
+It is possible to open it in the browser to see where we're going with this exercise.
 
 
 ## Exercise 3 - 
