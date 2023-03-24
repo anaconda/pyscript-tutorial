@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Wine dataset: A first look at the data</title>
+        <link rel="stylesheet"
+            href="https://pyscript.net/releases/2022.12.1/pyscript.css" />
+        <script defer
+            src="https://pyscript.net/releases/2022.12.1/pyscript.js"></script>
+    </head>
+
+    <body>
+        <py-config>
+            packages = ["scikit-learn", "numpy", "matplotlib", "pandas"]
+        </py-config>
+        <py-script>
+            import numpy as np
+            from matplotlib import pyplot as plt
+            from sklearn.datasets import load_wine
+
+            wine = load_wine()
+            y = wine.target
+            class_count = np.bincount(y)
+
+            shades_of_red = plt.cm.PuRd(np.linspace(0.5, 0.7, len(class_count)))
+            fig, ax = plt.subplots(figsize=(5, 5))
+
+            plt.title("Wine Dataset: class distribution")
+            bars = plt.bar(wine.target_names, class_count, color=shades_of_red)
+            plt.ylim([0, max(class_count) + 5])
+
+            # Loop through the bars and add annotations
+            for bar in bars:
+                height = bar.get_height()
+                ax.annotate(f'{height}', xy=(bar.get_x() + bar.get_width() / 2, height),
+                            xytext=(0, 1), textcoords="offset points", ha='center', va='bottom')
+            display(fig, target="class_distribution")
+        </py-script>
+
+        <py-script>
+            from pandas.plotting import scatter_matrix
+
+            X, _ = load_wine(as_frame=True, return_X_y=True)
+
+            n_features = X.shape[1]
+            fig, ax = plt.subplots(n_features, n_features, figsize=(12, 12))
+            _ = scatter_matrix(X, ax=ax, c=y, cmap=plt.cm.PiYG)
+            display(fig, target="scatter_matrix")
+        </py-script>
+
+        <div id="class_distribution"></div>
+        <div id="scatter_matrix"></div>
+    </body>
+
+</html>
