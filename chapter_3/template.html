@@ -1,21 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-
     <head>
-        <title>PyScript Tutorial - Chapter 3</title>
-        <link rel="stylesheet"
-            href="https://pyscript.net/releases/2022.12.1/pyscript.css" />
-        <script defer
-            src="https://pyscript.net/releases/2022.12.1/pyscript.js"></script>
+        <title>PyScript ML:  Page Title</title>
+        <link rel="stylesheet" href="https://pyscript.net/releases/2023.03.1/pyscript.css" />
+        <script defer src="https://pyscript.net/releases/2023.03.1/pyscript.js"></script>
     </head>
-
     <body>
-        <py-config>
-            packages = ["scikit-learn"]
+        <py-config src="runtime.toml">
+            packages = ["scikit-learn", "additional package(s)"]
+
+            [[fetch]]
+            files = ["module.py"]
         </py-config>
         <py-script>
-            # your code here
+            YOUR PYTHON CODE HERE
         </py-script>
+        <div id="template">
+            YOUR HTML CODE HERE
+        </div>
     </body>
-
 </html>

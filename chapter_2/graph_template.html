@@ -1,24 +1,26 @@
-
-<html>
-  <head>
-    <title>Zachary’s Karate Club graph</title>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="https://pyscript.net/releases/2022.12.1/pyscript.css" />
-    <script defer src="https://pyscript.net/releases/2022.12.1/pyscript.js"></script>
-    <py-config type="json">
-      {
-        "packages": ["networkx"]
-      }
-    </py-config>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>PyScript Graph Data-viz:  Page Title</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="https://pyscript.net/releases/2022.12.1/pyscript.css" />
+        <script defer src="https://pyscript.net/releases/2022.12.1/pyscript.js"></script>
     </head>
     <body>
-      <div id="stat" style="margin: 20px;"></div>
-      <div id="viz"></div>
-<script src="https://d3js.org/d3.v7.min.js"></script>
-<py-script>
-  import networkx as nx
-  from js import d3
-  from pyodide.ffi import create_proxy, to_js
-</py-script>
+        <py-config type="json">
+            {
+                "packages": ["networkx"]
+            }
+        </py-config>
+        <div id="stat" style="margin: 20px;"></div>
+        <div id="viz"></div>
+        <script src="https://d3js.org/d3.v7.min.js"></script>
+        <py-script>
+            import networkx as nx
+            from js import d3
+            from pyodide.ffi import create_proxy, to_js
+
+            your code here
+        </py-script>
     </body>
 </html>
