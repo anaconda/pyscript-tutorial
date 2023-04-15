@@ -28,7 +28,7 @@
         </py-config>
         <py-script>
             import numpy as np
-            from js import document, Event
+            import json
             from sklearn.datasets import load_wine
 
             wine = load_wine()
@@ -37,11 +37,11 @@
 
             from bokeh.embed import json_item
             from bokeh.plotting import figure
-
-            import json
-            from js import Bokeh, JSON
-            from js import document, console
             from bokeh.palettes import PuRd3
+
+            from js import document, Event
+            from js import document, console
+            from js import Bokeh, JSON
             from pyodide.ffi import create_proxy, to_js
 
             colors = np.asarray(PuRd3)
