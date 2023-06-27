@@ -709,7 +709,7 @@ your own dashboard. When that is done, you are ready to code!
 > app was in _read-only_ mode. You can work on the only only after the app has been duplicated
 > and imported in your own Dashboard.
 
-From now on, the checklist of things to do to get started with our app development for 
+From now on, the checklist of things to do to get started with our app development for
 the exercises will be essentially the same.
 
 #### Three simple steps to get started
@@ -775,10 +775,13 @@ The Pyodide Python API offers a method to `fetch` a given URL synchronously:
 
 > 💡 Internally `pandas.read_csv` relies on [`requests`](https://requests.readthedocs.io/en/latest/)
 > to effectively download the target data file. Requests however does not immediately work
-> with Pyodide since `requests.get` is a _synchronous_ blocking call, whilst Pyodide stack is
-> entirely _asynchronous_.
+> with Pyodide since `requests.get` is a _synchronous_ blocking call which tries to open a socket to
+> establish the connection. And  sockets are currently 
+> [not available](https://pyodide.org/en/stable/project/roadmap.html#write-http-client-in-terms-of-web-apis)
+> in Pyodide.
 
-So the plan would be to download the data file with `open_url` and pass it to pandas `read_csv` function:
+So the plan would be to download the data file first, using `open_url` function from Pyodide, and feed the result
+directly into the `read_csv` function of Pandas:
 
 ```python
 from pyodide.http import open_url
@@ -789,46 +792,324 @@ DATA_URL = "https://scipy-lectures.org/_downloads/brain_size.csv"
 df = pd.read_csv(open_url(DATA_URL), sep=";", na_values=".", index_col=0)
 ```
 
-Let's now do some grouping and averaging using 
-[`pandas.groupby`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.groupby.html) function, and
-let's print the resulting Data Frame using the 
+To finalise our exercise, let's try some _quite standard_ data operations
+on the Data Frame do gather some statistics about the data.
+For example, we could group our data by `Gender`, using
+[`pandas.groupby`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.groupby.html) function,
+aggregate the result by `mean`, and convert the resulting Data Frame into HTML `<table>` using the
 [`to_html`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_html.html#pandas.DataFrame.to_html)
 utility method.
 
-Before we dive into the remaining part of the code, let's create a new `<div id="data"></div>`
-element tag in the `index.html` file. This will be the target element where 
+Let's first create a new `div` element tag in the `index.html` file that will contain
+the resulting table: `<div id="data"></div>`.
 
 ```python
-
 from pyscript import Element, HTML
 
 gender_avg = df.groupby("Gender").aggregate("mean")
 Element("data").write(HTML(gender_avg.to_html()))
 ```
 
-The complete code listing is reported below: 
+The complete code listing in `main.py` for the exercise is reported below:
 
 ```python
-from pyodide.http import open_url
 import pandas as pd
+
+from pyodide.http import open_url
 from pyscript import Element, HTML
 
 DATA_URL = "https://scipy-lectures.org/_downloads/brain_size.csv"
 
 df = pd.read_csv(open_url(DATA_URL), sep=";", na_values=".", index_col=0)
 
-gender_group = df.groupby("Gender").aggregate("mean")
-Element("data").write(HTML(gender_group.to_html()))
+agg_gender = df.groupby("Gender").aggregate("mean")
+Element("data").write(HTML(agg_gender.to_html()))
 ```
 
+### ⚙️ 4.3 How it works
 
-### ⚙️ X.3 How it works
+After having configured our dependency for our app in the `pyscript.toml`/`<py-config>`,
+we are able to `import pandas as pd` in our code.
+
+The `pyodide.http.open_url` function is the key enabler here to `fetch` data _synchronously_ from
+a given URL, and pass the result directly to `pandas.read_csv`. Without the `open_url` function,
+the `pandas.read_csv` function would have not worked.
+
+> 💡 Alternatively, we could use [`pyodide-http`](https://github.com/koenvo/pyodide-http)
+> This package, automatically included in the list of supported packages in Pyodide, provides patches for 
+> `requests` and `urllib` http libraries to make them work in Pyodide.
+
+> 🧑‍💻 Would you like to give it a go ?
+> All you would need to do to start using `pyodide-http` is to include it in our list of required `packages`
+> (in `pyscript.toml`), and then adding the following two lines to our Python code:
+> ```python
+> from pyodide_http import patch_requests
+> patch_requests()
+> ```
+> After this, we will be able to normally use `pd.read_csv`, without
+> using `pyodide.http.open_url`, instead 😊.
+
+#### _One does not simply run Python in the browser_
+
+At first, this may look like quite a set back from what we've been discussing so far. So far, we have
+written in the browser the _same_ Python that would normally work on a CPU. Instead, in this exercise,
+we are need to make "adjustments" to port our Python code into the browser.
+However, it is very important to emphasise that this is neither a limitation of PyScript, nor of Pyodide.
+It is entirely related with how the _web works_, and with built-in sandboxed isolation from all the
+low-level details of the Operating System of the browser runtime environment. Let alone, that in the web
+_async_ calls are way preferable then _sync_ ones.
+
+Therefore all that we are starting to understand in this exercise is that _sometimes_ we would need to
+to adapt our code to be executed in this _new_, and mostly _unexplored_ environment for Pythonistas.
+No different than what we would need when porting Python to MicroControllers
+(e.g. [MicroPython](https://micropython.org/)).
+
+From this exercise onwards in this tutorial, similar notes and adjustment
+to our code will be remarked by the [meme-like](https://imgflip.com/gif/7qptor) title of
+_One does not simply run Python in the browser_.
+
+Jokes aside, all these considerations about porting our Python code into the browser will offer
+valuable opportunities to dive into details of the new computation platform we are trying to
+get along with: the Browser &nbsp; WASM.
+
+The rest of the (Pandas) code in the exercise is pretty standard `pandas` ops on Data Frame and does not deserve
+further comments.
+
+What it is worth mentioning instead are the use of those two objects imported from `pyscript`:
+[`Element`](https://docs.pyscript.net/latest/reference/API/element.html) and `HTML`.
+The former, is a Python abstraction provided by the PyScript high-level API to work with DOM in a very Pythonic way.
+`Element` accepts a target (HTML) `id` in its constructor method, which identifies a unique element in the Page,
+and gives access to the corresponding element tag. In fact, we could either use `pyscript.Element` or 
+`js.document.getElementById()` function to identify and manipulate element tags in the DOM.
+
+> 💡 This is the first time we mention the `js` module to get immediate access to the JavaScript
+> interpreter running in the browser. Under the hood, Pyodide is responsible to create this bridge
+> connection between Python and Javascript. In this case, using the `js` module from our Python
+> is an example of direct integration of Python with Javascript (i.e. `Py` ➡️ `JS`).
+> Later on in the following Chapters, we will see also examples considering the opposite direction
+> of communication (i.e. `Py` ⬅️ `JS`) enabled by PyScript/Pyodide, thus implementing a bi-directional
+> channel between the two technologies: `Py` ↔️ `JS`.
+
+One of the methods in the `Element` class is `write` that can be used to add content, of various
+mime/type. We are wrapping the output generated by `agg_gender.to_html()` into an
+[HTML](https://github.com/pyscript/pyscript/blob/848d77b1c29d4145a3438b832acd4b3b9bf32951/pyscriptjs/src/python/pyscript/_html.py#L10)
+instance to would mark the content with `text/html` [`mime/type`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types),
+rather than the default `text/plain`.
+
+> 💡 It is worth mentioning that the `pyscript` module (and corresponding _global_ namespace)
+> are automatically available for our Python code when we work with PyScript.
+> In other words, the line `from pyscript import Element, HTML` could be simply omitted, and the
+> whole code would continue to work the same way.
+> However, it is always good practice to declare imports explicitly in our code, to improve
+> readability, and code understanding.
+
+### 🎁 4.4 Wrap up
+
+In this exercise, we have been exploring the use of the `pandas` library with PyScript. Pandas is another
+key library in the PyData stack, and another fundamental piece for our Python data apps running in
+the browser, with PyScript.
+One of the most popular, and widely used function from `pandas` is `read_csv` to read data in CSV format, and
+convert them into `pandas.DataFrame` objects. This function can automatically read data hosted on remote URLs
+but its underlying implementation is not fully compatible with how PyScript/Pyodide work. Namely `sockets` and
+synchronous calls are not supported in Pyodide. Therefore, in our code solution, we used `pyodide.http.open_url`
+function to fetch our data synchronously, and feed it into `pandas.read_csv` function.
+
+After some _standard_ data processing involving grouping and averaging of our data, the resulting `DataFrame` has
+been written into the HTML page using pyscript high-level Python APIs: `pyscript.Element` and `pyscript.HTML`.
+
+#### 🥡 Take away lessons
+
+- PyScript/Pyodide supports running also `pandas` in the browser.
+  - If combined with `numpy` (see Ex. 3), we already have two of the most crucial packages for Data Science in Python.
+- `pd.read_csv` requires either `pyodide.http.open_url` to fetch the data, or `pyodide-http` to patch its internals.
+  - This is because `sockets` are not supported in Pyodide, so we need to adapt our code to run in the new Web/WASM environment.
+- PyScript provides high-level APIs to interact with DOM, e.g. `Element` and `HTML`.
+  - `Element` works thanks to the bi-directional bridge PyScript/Pyodide provide between `Py` and `JS`
+
+---
+
+## Exercise 5 - Pythonic `Read-Eval-Print-Loop`, and custom Python modules
+
+In this exercise, we will explore the _third_ of the special [custom elements](https://docs.pyscript.net/latest/reference/index.html#reference)
+PyScript provides: `<py-repl>`.
+
+The [`<py-repl>`](https://docs.pyscript.net/latest/reference/elements/py-repl.html) special tag allows users to add a
+`REPL` (Read-Eval-Print-Loop) directly into their HTML page, which is able to evaluate multi-line Python code, and display its output.
+Similar REPL elements are the foundational blocks on which Jupyter notebooks are build upon. So, chances are that you would be already
+familiar with it.
+
+In this exercise, we will see how this tag can be used to directly interact with the Python code available in the browser.
+One very good example along these lines is provided by the
+[_Using SQLite in PyScript_](https://pyscript.com/view/6fd75ce3-df0a-4384-b255-195e41c4f02f/d9dad5e1-bebd-4fb8-9493-5813063cebcc/latest)
+app, available on [PyScript.com](https://pyscript.com).
+This app uses the `<py-repl>` to enable the execution of Python code to read from, and write to, an online `sqlite3` database.
+
+While working on the `<py-repl>`, we will also focus on another _important_ feature provided by PyScript: the ability to configure and use
+**custom Python modules**.
+
+### ⏳ 5.1 Get Ready
+
+Similarly to what we did for [Exercise 4](#exercise-4---our-first-data-app-on-pyscriptcom),
+we need to duplicate the reference project [template](https://bit.ly/pyscript-template-ch-1)
+available on PyScript.com, to automatically transfer the project into
+our own dashboard. When that is done, you are ready to code!
+
+Please follow the simple [instructions](#three-simple-steps-to-get-started) to customise, and rename the app
+accordingly.
+
+### 🧑‍💻 5.2 Learning to Fly, with Python
+
+In this exercise, we will replicate on of the [examples](https://pyscript.net/examples/) available in the
+official PyScript documentation, and currently going under the quite anonymous name of `PyREPL2`.
+
+Let's not spoil anything, and let's start working on the exercise 😊.
+
+First thing first, let's add a new custom file to our PyScript.com project, and let's name this file `antigravity.py`.
+
+> 💡 To add a new file to your PyScript app on PyScript.com, just click on the `+` icon located
+> on the top-right corner of the resource manager, that is the leftmost pane window in the project editor.
+
+If you know already the popular [xkcd](https://xkcd.com/) comic (i.e. [353](https://xkcd.com/353/)), you may have already
+guessed where this is going.
+
+Let's write the following code in the `antigravity.py` module:
+
+```python
+import random
+
+from js import DOMParser, document, setInterval
+from pyodide.ffi import create_proxy
+from pyodide.http import open_url
+
+
+class Antigravity:
+    url = "https://raw.githubusercontent.com/pyscript/pyscript/main/examples/antigravity.svg"
+
+    def __init__(self, target=None, interval=10, append=True, fly=False):
+        self.target = (
+            document.getElementById(target)
+            if isinstance(target, str)
+            else document.body
+        )
+        doc = DOMParser.new().parseFromString(
+            open_url(self.url).read(), "image/svg+xml"
+        )
+        self.node = doc.documentElement
+        if append:
+            self.target.append(self.node)
+        else:
+            self.target.replaceChildren(self.node)
+        self.xoffset, self.yoffset = 0, 0
+        self.interval = interval
+        if fly:
+            self.fly()
+
+    def fly(self):
+        setInterval(create_proxy(self.move), self.interval)
+
+    def move(self):
+        char = self.node.getElementsByTagName("g")[1]
+        char.setAttribute("transform", f"translate({self.xoffset}, {-self.yoffset})")
+        self.xoffset += random.normalvariate(0, 1) / 20
+        if self.yoffset < 50:
+            self.yoffset += 0.1
+        else:
+            self.yoffset += random.normalvariate(0, 1) / 20
+
+
+_auto = Antigravity(append=True)
+fly = _auto.fly
+```
+
+Please take a moment to read, and digest the above code, but please don't worry about understanding every single details of
+what's going. We will explain everything in due course (i.e. in the next section). 
+So, please feel free to take a first glance at it _for now_ 😊.
+
+To integrate this module into our app, we could use once again the `<py-config>` tag.
+Remember ? The whole idea of the `<py-config>` element is to specify all the dependencies (remote and or local) of our PyScript
+project (_somewhat similar to `pyproject.toml`, ed.), so that the whole app will be consistent, and self-contained.
+To do so, we can leverage on the [`[[fetch]]`](https://docs.pyscript.net/latest/reference/elements/py-config.html#local-modules)
+section in our `pyscript.toml` configuration file.
+The list of local modules to import in our app can be specified using the `files` directive:
+
+```toml
+# In pyscript.toml
+[[fetch]]
+files = ["./antigravity.py"]
+```
+
+From this moment onwards, we will be able to import and use the `antigravity` module from our Python code.
+
+Let's now add a new `<py-repl>` into our `index.html` page. In particular, let's add the following two lines
+in the main `body` tag of the page:
+
+```html
+<py-repl auto-generate="true">
+  import antigravity
+</py-repl>
+```
+
+That's it for the coding part of this exercise.
+
+> 💡 You might have noticed that we didn't touch the `main.py` module at all in this exercise.
+> It is because the plan will be to write all the code we want for our app directly into the
+> PyREPL element. Therefore, you can even decide to remove entirely the `<script>` tag
+> from the `index.html`.
+
+Let's now hit the `Save & Run` button to have a preview of what we
+have done! 💫
+
+#### Run the app, interactively
+
+The `index.html` page features a fully-working PyREPL element including the line `import antigravity`.
+To execute the code, you could either select the REPL and hit `Shift+Enter` on your keyboard, or
+moving with your mouse pointer onto the right side of the element. A green triangle/arrow should appear.
+You could click there instead.
+Once executed, (A) the `antigravity` module is now available into the Python (global) namespace;
+(B) the xkcd comic should appear underneath the PyREPL/cell;
+(C) a new REPL element should have appeared immediately under the output of the previous one.
+This is the effect of using `auto-generate="true"` as attribute to the `<py-repl>` element.
+
+> 💡 So far, nothing extremely surprising about the xkcd comic, if you knew already the easter-egg
+> included in the Python Standard Library. If you have no clue of what I am talking about, let's open
+> a new Python interpreter, and type:
+> ```python
+> import antigravity
+> ```
+> and see what happens! 😉
+
+[**And Now for Something Completely Different**](https://en.wikipedia.org/wiki/And_Now_for_Something_Completely_Different):
+In the newly generated REPL, let's now type:
+```python
+antigravity.fly()
+```
+
+And **that** is something entirely new, even for the ester egg 🎉💫.
+
+### ⚙️ 5.3 How it works
+
+The exercise is indeed composed by two parts, focusing on two features provided by PyScript: the new `<py-repl>` custom
+element, and the possibility to include local Python modules into our code.
+
+The only things worth mentioning about the `<py-repl>` element is that, as mentioned,
+specifying the [`auto-generate`](https://docs.pyscript.net/latest/reference/elements/py-repl.html#auto-generate)
+attribute allows to add another `<py-repl>` tag upon execution.
+The other thing to point out from our example is that any Python code that we would add within the `<py-repl></py-repl>`
+tags will automatically constitute the content of our cell.
+
+> 💡 If you're familiar with Jupyter notebooks format, you might have noticed lots of similarities with the
+> PyREPL element. However, despite their similar aspect, they are indeed two completely different things. 
+> Let's say that PyREPL is a much simpler object, or by contrast that Jupyter notebooks are not just a collection
+> of PyREPL. PyScript `<py-repl>` elements would be comparable to _code-cells_ into a Jupyter notebook.
+> In fact, they do just support Python code, and it's not currently possible to write [Markdown](https://www.markdownguide.org/)
+> into a PyScript REPL.
+
+
 
 ### 🎁 X.4 Wrap up
 
 #### 🥡 Take away lessons
 
----
 
 ## Exercise X - 
 
