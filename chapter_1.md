@@ -1098,11 +1098,40 @@ The other thing to point out from our example is that any Python code that we wo
 tags will automatically constitute the content of our cell.
 
 > 💡 If you're familiar with Jupyter notebooks format, you might have noticed lots of similarities with the
-> PyREPL element. However, despite their similar aspect, they are indeed two completely different things. 
+> PyREPL element. However, despite their similar aspect, they are indeed two completely different things.
 > Let's say that PyREPL is a much simpler object, or by contrast that Jupyter notebooks are not just a collection
 > of PyREPL. PyScript `<py-repl>` elements would be comparable to _code-cells_ into a Jupyter notebook.
-> In fact, they do just support Python code, and it's not currently possible to write [Markdown](https://www.markdownguide.org/)
-> into a PyScript REPL.
+> In fact, they do just support Python code, and it's not currently possible to write
+[Markdown](https://www.markdownguide.org/) into a PyScript REPL.
+
+The custom `antigravity.py` module has been integrated into the PyScript app thanks as local module via
+the `<py-config>` element.
+What the code of the module intends to do is to _replace_ the `antigravity` module from the Standard library,
+with one that apparently works exactly the same way. Until we `fly()` 🤓.
+
+> 💡 If you are wondering how Python imports the custom local module, instead of the one
+> with the same name from the Standard library, the answer is in how _Name Resolution_ works
+> in Python. On this note, I would strongly encourage to follow up on this very interesting topic
+> about Python internals by reading [this article](https://www.python.org/download/releases/2.3/mro/)
+> from the official Python doc (and parts of Python 2.3 Release Notes) by Michele Simionato,
+> Italian Pythonista, and founding member of the Python Italia Association.
+
+The custom `antigravity` module defines a new class, i.e. `Antigravity` which renders the xkcd SVG when
+it gets instantiated (see `Antigravity.__init__`).
+A new instance is created on `line 43` of the above code, and this is why when we `import antigravity`, the
+instance is created, and so the SVG is rendered.
+
+The way how the SVG is added to the document is very interesting. Here we see a concrete example of the
+bi-directional communication PyScript and Pyodide enable between Python and Javascript.
+In fact, from our custom Python code, we are able to import, `from js`, `DOMParser`, `document` and `setInterval` (useful later
+with the `fly()` method implementation).
+
+The `DOMParser` class (_`DOMParser.new` is the corresponding object_, ed.) parses the SVG and add a new element in the DOM. 
+The actual SVG object is gathered from remote URL using
+the `pyodide.http.open_url` function, similarly to what we did in
+[Exercise 4](#🧑‍💻-42-pandas-in-the-browser-with-pyodide-support).
+
+
 
 
 
