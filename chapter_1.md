@@ -1170,6 +1170,7 @@ the `pyodide.http.open_url` function, similarly to what we did in
 [Exercise 4](#🧑‍💻-42-pandas-in-the-browser-with-pyodide-support).
 
 > 💡 JavaScript to Python Syntax Adaptation
+>
 > The Object instantiation syntax using the `new` operator in **JavaScript**, for example:
 >
 > ```javascript
