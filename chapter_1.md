@@ -396,7 +396,7 @@ in our PyScript application we would just need to add the `packages` directive w
 </py-config>
 ```
 
-Let's add the `<py-config>` reported above to our `pyscript_meets_numpy.html` file, and save it.
+Let's add the `<py-config>` reported above to our `pyscript_meets_numpy.html` file right after the `<body>` tag, and save it.
 
 > ✅ This example is now complete! Let's open the `pyscript_meets_numpy.html` local file in the browser.
 
