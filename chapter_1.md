@@ -11,14 +11,15 @@ applications.
 
 Exercises featured in this Chapter:
 
-1. [Your first lines of Python in the browser are "bigger on the inside"](#exercise-1---your-first-lines-of-python-in-the-browser-are-bigger-on-the-inside)
+
+1. [Your first two lines of Python in the browser](#exercise-1---your-first-lines-of-python-in-the-browser-are-bigger-on-the-inside)
 2. []()
 
 ---
-## Exercise 1 - Your first lines of Python in the browser are "bigger on the inside".
+## Exercise 1 - Your first two lines of Python in the browser.
 
 In this exercise, we will work on the simplest example ever one could
-think of to write our _first few_ lines of Python in HTML.
+think of to write our _first few_ lines (_actually two_, ed.) of Python in HTML.
 
 ### ⏳ 1.1 Get Ready
 
@@ -116,33 +117,70 @@ HTML tag where Python code will be expected.
 And indeed there is some Python code, and we have already discussed that's pure Python 3 that one would
 normally write into a general app running on your computer. So _how_ does that work really ?
 
+In the figure below, there is an high-level representation of the PyScript general architecture,
+describing the various components. In the remainder of this Section, we will try to understand
+what's the role of these components, and how they relate to each other.
+
 ![PyScript General Architecture](https://anaconda.cloud/api/files/31ea07ba-dadc-4d18-b79e-d309328762d0)
 
-PyScript is currently built on [Pyodide](https://pyodide.org), which is a "port" of the CPython interpreter
-compiled to [WebAssembly](https://webassemly.org) (`WASM`)
-via
-[Emscripten](https://emscripten.org/).
+On the top level of the architecture, there is indeed PyScript, providing access to
+various elements, like "Widgets" and "Custom Tags".
+We will talk about some of them more extensively in the following exercises in this Chapter.
+
+PyScript is currently built on **Pyodide**, which is a "port" of the CPython interpreter
+that is compiled to **Web Assembly** (`WASM`) via **Emscripten**.
 
 In a nutshell, WASM is a binary instruction format for stack-based virtual machines that is designed
 as a portable compilation target for multiple programming languages.
-WASM allows to run code written in multiple languages with near-native performance, and the huge
-implication of this is that any modern browser rendering engines natively support WASM instruction sets.
+WASM allows to run code written in multiple languages with near-native performance.
+
+However, the real (huge) implication of this architectural choice could be better appreciated if we
+add an important piece to our puzzle:
+
+> 💡 "Any modern web browser natively embeds support for WASM instruction sets".
+
+In other words, any browser is able to run any WASM executable within their sand-boxed environment.
+And therefore, thanks to native support to WASM, we are able to bring Python (_literally_) into
+the browser!
 
 We will dive more into the details of this architecture as soon as we will
 work on the other exercises in this Chapter.
 
-> ⚪️..🔵..⚫️..🔴 Connecting the dots:
-> Thanks to Pyodide, which brings the CPython interpreter to WASM,
-> we are allowed to run Python code directly into the browser at near-native performance!
-> PyScript builds on top of Pyodide, abstracting from most of the low-level details, and
-> making the whole development experience in the browser way more pleasant and easy
-> to get started with!
+Let's pause for a second now. It was certainly a lot to process, with lots of new terms, and terminology.
 
-> 💡 The version of Python running in the browser is linked to the version of the 
-> CPython interpreter supported by Pyodide.
-> In this course, we are using `PyScript 2023.05.1` which builds on top of 
-> [`Pyodide 0.23.2`](https://pyodide.org/en/stable/usage/packages-in-pyodide.html) 
+Let's try to re-connect the dots before moving on, and please feel free to come back to the
+following [Section](#⚪️🔵⚫️🔴-connecting-the-dots) any time during this Course, if you feel that
+there is still something that "doesn't make sense" in how this whole new technology works.
+
+#### ⚪️..🔵..⚫️..🔴 Connecting the dots:
+
+Let's briefly recap all the components and their role within the
+PyScript Architecture.
+You can also find the reference links to each of them at the end of the Section.
+
+The current version of **PyScript** builds on top of Pyodide.
+**Pyodide** provides a version of the standard CPython interpreter
+(e.g. Python 3.11.2) that works directly on WebAssembly (WASM).
+WASM is a binary instruction format that is designed as a portable compilation target
+for multiple languages.
+Pyodide leverages on **Emscripten** to compile Python (i.e. the CPython interpreter)
+to WASM.
+
+PyScript leverages on these technologies under the hood, and abstracts most of
+their low-level details, providing a whole new development experience in the browser
+easy to get started with!
+
+> 💡 The version of Python running in the browser is linked to the version of the
+> CPython interpreter supported by the corresponding version of Pyodide.
+> In this course, we are using `PyScript 2023.05.1` which builds on top of
+> [`Pyodide 0.23.2`](https://pyodide.org/en/stable/usage/packages-in-pyodide.html)
 > that runs `Python 3.11.2`.
+
+**Reference Links**:
+
+- [Pyodide](https://pyodide.org)
+- [WebAssembly](https://webassemly.org)
+- [Emscripten](https://emscripten.org/)
 
 #### `<script type="py"> = <py-script>`
 
@@ -607,7 +645,25 @@ type(b): <class 'numpy.ndarray'>
 > need much infrastructure to _deploy_ a PyScript application. Anything that would simply be
 > able to serve HTML pages (e.g. [GitHub Pages](https://pages.github.com/)) would do.
 
-### 🎁 3.3 Wrap up
+### 💫 3.3 There is a Better way 🐇
+
+This exercise was absolutely great to learn some best practice of working on PyScript apps:
+_keeping Python and HTML separated in different files_ improves the coding experience,
+enabling the support of your editor.
+Moreover, writing an external Python module would also help in making the code more
+maintainable, as it would normally be when developing generic Python applications.
+
+However, the simplicity in getting started and the natural ease of use of PyScript now
+meets the "complications" of Web standards.
+
+To be clear, CORS policy restriction do exist for a very good
+[security reason](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)!
+
+Nonetheless, we would be needing to set up and run an Http server to work with PyScript.
+
+Luckily, there is an alternative and **better** way: the PyScript bunny way 🐇
+
+### 🎁 3.4 Wrap up
 
 In this example we learnt that it is best practice (as well as a better development experience)
 to separate HTML from Python files, leveraging on the `src` attribute the PyScript `<script type="py">`
@@ -634,24 +690,6 @@ HTTP server (e.g. `python -m http.server` for local development, or `GitHub Page
   Not even Python!.
   - The `<py-config>` tag configures the PyScript app, including external dependencies to be downloaded
   and installed.
-
-### 💫 3.4 There is a Better way 🐇
-
-This exercise was absolutely great to learn some best practice of working on PyScript apps:
-_keeping Python and HTML separated in different files_ improves the coding experience,
-enabling the support of your editor.
-Moreover, writing an external Python module would also help in making the code more
-maintainable, as it would normally be when developing generic Python applications.
-
-However, the simplicity in getting started and the natural ease of use of PyScript now
-meets the "complications" of Web standards.
-
-To be clear, CORS policy restriction do exist for a very good
-[security reason](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)!
-
-Nonetheless, we would be needing to set up and run an Http server to work with PyScript.
-
-Luckily, there is an alternative and **better** way: the PyScript bunny way 🐇
 
 #### Introducing [PyScript.com](https://pyscript.com)! 💫
 
@@ -1126,201 +1164,66 @@ bi-directional communication PyScript and Pyodide enable between Python and Java
 In fact, from our custom Python code, we are able to import, `from js`, `DOMParser`, `document` and `setInterval` (useful later
 with the `fly()` method implementation).
 
-The `DOMParser` class (_`DOMParser.new` is the corresponding object_, ed.) parses the SVG and add a new element in the DOM. 
+The `DOMParser` class (_`DOMParser.new` is the corresponding object_, ed.) parses the SVG and add a new element in the DOM.
 The actual SVG object is gathered from remote URL using
 the `pyodide.http.open_url` function, similarly to what we did in
 [Exercise 4](#🧑‍💻-42-pandas-in-the-browser-with-pyodide-support).
 
+> 💡 JavaScript to Python Syntax Adaptation
+> ```javascript
+> const parser = new DOMParser(...)
+> ```
+> becomes
+> ```python
+> parser = DOMParser.new(...)
+> ```
 
+If you are used to work with JavaScript, and its OOP model, you may have noticed a slight
+difference in how the `DOMParser` object is instantiated in the Python code above. 
+In fact, `new` is **not** a reserved keyword statement in the Python language, therefore any 
+instruction like `new DOMParser` would be valid Python code that works.
+However, whenever we manipulating any JavaScript object in our Python code, we are in fact working with 
+`pyodide.ffi.JsProxy` instances. `JsProxy` instances exposes a `new` method
+([doc](https://pyodide.org/en/stable/usage/api/python-api/ffi.html#pyodide.ffi.JsProxy.new))
+which construct an instance of its corresponding JavaScript object (e.g. `DOMParser.new`).
 
+The last element to highlight from the `Antigravity` class we have implemented regards its `fly` method.
+First, we are leveraging on the built-in JavaScript function `setInterval` to repeatedly invoke the
+`Antigravity.move` method (i.e. `self.move` in the code example). Thanks to the `pyodide.ffi.create_proxy`
+function ([doc](https://pyodide.org/en/stable/usage/api/python-api/ffi.html#pyodide.ffi.create_proxy))
+we are able to feed in to the JavaScript `setInterval` a generic Python callable (method, in this case).
 
+The last two examples (`cerate_proxy` and `JsProxy.new `) are part of the larger built-in **Javascript Bridge** 
+(see [Architecture](#⚪️🔵⚫️🔴-connecting-the-dots)) PyScript and Pyodide provide to seamlessly **integrate** these
+two (quite different) technologies.
 
-### 🎁 X.4 Wrap up
+### 🎁 5.4 Wrap up
+
+In this exercises we have explored two new features provided by PyScript: the ability to load custom Python modules,
+in addition to Python packages; and the `<py-repl>` custom element. 
+Our custom module (i.e. `antigravity.py`) has been added to the PyScript application via the `<py-config>` tag, 
+and its `[[fetch]]` directive.
+
+Thanks to the `<py-repl>` element, we have been able to integrate a REPL into our
+HTML page, that is able to interactively process any Python code we would have available in the app runtime namespace.
+
+In our exercise, we started importing our `antigravity` custom module, and then call `antigravity.fly()`.
+
+While exploring in details the code for our `antigravity.py` module, we had the opportunity to witness first-hand
+some of the built-in components (i.e. `JsProxy`, `create_proxy`) Pyodide offers to create a bridged integration 
+with the JavaScript language into our Python code. This integration is achieved via the `pyodide.ffi` package.
+
+> 💡 FFI: Foreign Function Interface
 
 #### 🥡 Take away lessons
 
-
-## Exercise X - 
-
-### ⏳ X.1 Get Ready
-
-### 🧑‍💻 X.2 
-
-### ⚙️ X.3 How it works
-
-### 🎁 X.4 Wrap up
-
-#### 🥡 Take away lessons
-
-## Exercise 2 - Python REPL
-
-Now, let's try to add a Python REPL in the webpage. If you want to keep the work of the previous exercises, feel free to make a copy. Now I will assume we just reuse the `hello_world.html` and continue from there.
-
-Now below the `</py-script>` tag. Add a pair of tags like this:
-
-```html
-<py-repl>
-</py-repl>
-```
-
-This will create a Python REPL on the webpage. Let's look at the browser to find out. If you are on a new file, open that file with a browser, otherwise you can just refresh to see the new changes.
-
-Now by seeing the REPL, you can try to code Python in it. Try printing the time now from the REPL? Then click on the green arrow or press `shirt + enter`.
-
-You can also add Python code between the the tags `<py-repl>` and `</py-repl>`, but they won't get executed right away like the previous exercise. They will be added to the REPL and you have to run them with the green arrow or press `shirt + enter`.
-
-Now try adding the following line between the `<py-repl>` and `</py-repl>` tags:
-
-```python
-print(datetime.now()) # press shirt + enter to run
-```
-
-and refresh the page.
-
-What if I want to keep the result of the previous REPL and have a new one after I executed the old one. You can activate that creature by adding `auto-generate="true"` inside the `<py-repl>` tag like this:
-
-```html
-<py-repl auto-generate="true">
-```
-
-Now save and refresh again to see the changes.
-
----
-
-## Exercise 3 - Async
-
-Remember we can print out the time but it does not update automatically? If we want to do so we need to do a bit of async code. Don't worry if you are not familiar with async code, we will do it here together and you can look deeper into [async code in Python](https://docs.python.org/3/library/asyncio.html) later if you are interested.
-
-Now, let's go to the `hello_world.html` and use it as a starting point. If you had a copy of exercise 1, make a copy of it and we can start form there. If you are continuing form the last exercise, just delete the `<py-repl>` and `</py-repl>` tags and anything between them, we will start from there.
-
-We need to modify the code inside the `<py-script>` and `</py-script>` tags pair. But first, we need to add a div element as `output` for the output, after the `<py-script>` and `</py-script>` tags pair, add this:
-
-```html
-<div id=output></div>
-```
-
-Then, we need to change our code, first, we need to import asyncio after importing datetime.
-
-```python
-from datetime import datetime
-import asyncio
-```
-
-We can keep the first print statement but for the time itself, we need to update it, so, we will have to write into the div element `output` as `print` statement does not allow us to rewrite it.
-
-```python
-Element("output").write(str(datetime.now()))
-```
-
-Note that we have to convert `datetime.now()` into string as it is done automatically by the `print` statement but not he `wirte` method here.
-
-Now, let's create an async function (or it is called coroutine) to make it looping over and over again. An async function (coroutine) is just like a function but with `async` in front of the `def`, like this:
-
-```python
-async def tick():
-```
-
-In this function, it want it to run and never end, so we:
-
-1) use a while `True` loop;
-2) then we do the `.write` into `output` (the line above) and finally;
-3) sleep for a second before the next iteration
-
-just like this:
-
-```python
-async def tick():
-    while True:
-      Element("output").write(str(datetime.now()))
-      await asyncio.sleep(1)
-```
-
-Now we have our `tick`, we just need to put it in the PyScript event loop so it is running in the background non-stop. But before, remember the PyScript loader? The spinning thing when PyScript is loading. If we just put our `tick` in the event loop technically PyScript is never finish executing and the spinning will not go away. So we have to tell it to stop.
-
-```python
-pyscript_loader.close()
-```
-
-Then now we can put `tick` into the event loop:
-
-```python
-pyscript.run_until_complete(tick())
-```
-
-Did you follow? If you are not sure here is all the code within the `<py-script>` and `</py-script>` tags pair:
-
-
-```python
-from datetime import datetime
-import asyncio
-print("The time now is:")
-async def tick():
-    while True:
-      Element("output").write(str(datetime.now()))
-      await asyncio.sleep(1)
-pyscript_loader.close()
-pyscript.run_until_complete(tick())
-```
-
-When you are done, save and refresh (or open the file) and see the async magic happened.
-
----
-
-
----
-
-## Exercise 5 - Loading a file
-
-Most of the time, when using Pandas, we will load in a csv for data analysis. To load a hosted csv from a url, we can do so with the `open_url` method provided by Pyodide. Let's put this line above the `import pandas as pd` line:
-
-```python
-from pyodide.http import open_url
-```
-
-We will load the [ice cream data](https://github.com/Cheukting/pyscript-ice-cream/blob/main/bj-products.csv) which is hosted on GitHub as `df`.
-
-> The ice cream data is originally from Kaggle [Ice Cream Dataset](https://www.kaggle.com/datasets/tysonpo/ice-cream-dataset)
-
-> Files need to be hosted on a server. To do it locally, a local server need to be started. The easiest way is to use the `http` module in Python: `python -m http.server`
-
-Replace the two lines below `import pandas as pd` with this:
-
-```python
-df = pd.read_csv(open_url("https://raw.githubusercontent.com/Cheukting/pyscript-ice-cream/main/bj-products.csv"))
-```
-
-To sum up, the code between the `<py-script>` and `</py-script>` tags pair should look like this:
-
-```python
-from pyodide.http import open_url
-import pandas as pd
-df = pd.read_csv(open_url("https://raw.githubusercontent.com/Cheukting/pyscript-ice-cream/main/bj-products.csv"))
-df
-```
-
-Now opening the html file in a browser again or refresh the page if you already have it opened. Now we will see the dataset being loaded in full. From here we can do all the operations which Pandas offer, for example, to show only the head (first 5 rows) of the data, replace the last `df` with `df.head()` and refresh.
-
----
-
-## Exercise 6 - Data analysis with Pandas
-
-In the last exercise, we can do Pandas analysis with the ice cream data. What if we want the user to be able to do it without changing the html file? We can do it with the `<py-repl>`.
-
-Let's delete the last line with `df` or `df.head()` and put the following under the `</py-script>`:
-
-```
-<py-repl>
-# ice cream data pre-loaded as df
-df.head()
-</py-repl>
-```
-
-Now refresh the page (or open it) and see that instead of the DataFrame, there is a REPL for you to do the Pandas operation with `df`. You can now try running `df.head()` by pushing `shift + enter`. After that, try changing the `df.head()` to other operations like:
-
-* `df.tail()` to show the tail of the data set,
-* `df[['name']]` to get all the names of the ice creams, or
-* `df.query("rating > 4 and rating_count > 100")` for the best rated ice creams
-
----
-
-This concludes Chapter 1 of this workshop. To continue learning how to create data visualisation and interactive elements, please go to [Chapter 2](/chapter_2/chapter_2.md)
+- The `<py-config>` PyScript tag allows to load any Python custom module
+  - We would need to add a `[[fetch]]` section to our configuration
+  - We would then use the `files = [...]` directive to list the URLs/Paths of our custom modules to load.
+- The `<py-repl>` special tag creates a Pythonic REPL into our HTML page
+- The REPL can interact with any code available in the runtime namespace
+  - We initialised the REPL with the `import antigravity` statement
+- The `<py-repl>` supports a `auto-generate="true"` attribute that would immediately
+append to the REPL output, a brand new `<py-repl>` element.
+- PyScript and Pyodide provide seamless integration of the Python language (i.e. objects, and functions)
+with JavaScript via the `pyodide.ffi` package.
