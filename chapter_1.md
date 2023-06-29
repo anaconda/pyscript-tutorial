@@ -11,9 +11,12 @@ applications.
 
 Exercises featured in this Chapter:
 
-
 1. [Your first two lines of Python in the browser](#exercise-1---your-first-lines-of-python-in-the-browser-are-bigger-on-the-inside)
-2. []()
+2. [There can be no data app without NumPy](#exercise-2---there-can-be-no-data-app-without-numpy)
+3. [A better development experience in the browser](#exercise-3---a-better-development-experience-in-the-browser)
+4. [Our first Data App on PyScript.com](#exercise-4---our-first-data-app-on-pyscriptcom)
+5. [Pythonic Read-Eval-Print-Loop and Custom Modules](#exercise-5---pythonic-read-eval-print-loop-and-custom-python-modules)
+
 
 ---
 ## Exercise 1 - Your first two lines of Python in the browser.
