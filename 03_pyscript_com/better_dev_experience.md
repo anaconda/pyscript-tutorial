@@ -348,7 +348,7 @@ PyScript.com is indeed easy to use, and absolutely perfect to get started with
 PyScript as it completely lowers the barrier to set up your coding environment and infrastructure.
 
 > 💡 From now on, we will be using directly PyScript.com to work on the exercises, 
-> using this [template](https://bit.ly/pyscript-template-ch-1)
+> using this [template](https://pyscript.com/@leriomaggio/pyscript-template/latest)
 > So please [sign up](https://pyscript.com) to create your account.
 
 
