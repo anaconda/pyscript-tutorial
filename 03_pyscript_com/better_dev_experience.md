@@ -21,8 +21,8 @@ Let's create again an HTML skeleton template which already includes PyScript, na
     <head>
         <title>PyScript Dice</title>
         <meta charset="utf-8">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@pyscript/core/dist/core.css">
-        <script type="module" src="https://cdn.jsdelivr.net/npm/@pyscript/core"></script>
+        <link rel="stylesheet" href="https://pyscript.net/snapshots/2023.09.1.RC1/core.css" />
+        <script type="module" src="https://pyscript.net/snapshots/2023.09.1.RC1/core.js"></script>
     </head>
     <body>
         <script type="py">
@@ -116,8 +116,8 @@ The content of the `pyscript_dice.html` file should look like the following:
     <head>
         <title>PyScript Dice</title>
         <meta charset="utf-8">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@pyscript/core/dist/core.css">
-        <script type="module" src="https://cdn.jsdelivr.net/npm/@pyscript/core"></script>
+        <link rel="stylesheet" href="https://pyscript.net/snapshots/2023.09.1.RC1/core.css" />
+        <script type="module" src="https://pyscript.net/snapshots/2023.09.1.RC1/core.js"></script>
     </head>
     <body>
         <script type="py">
@@ -173,7 +173,9 @@ would be moved and loaded from external files, namely `main.py` using the `src` 
 > [JSON](https://www.freecodecamp.org/news/what-is-json-a-json-file-example/) syntax.
 > The TOML format is the default, and we will be using this throughout the course, as it is
 > (a) less verbose than JSON; (b) more intuitive and easier to write; (c) it is the same
-> format used to specify [packages metadata](https://packaging.python.org/en/latest/tutorials/packaging-projects/#creating-pyproject-toml) (i.e. `pyproject.toml`).
+> format used to specify 
+> [packages metadata](https://packaging.python.org/en/latest/tutorials/packaging-projects/#creating-pyproject-toml) 
+> (i.e. `pyproject.toml`).
 
 > 💡 Writing your Python code in the `main.py` file will immediately trigger the code support from your editor
 > (e.g. syntax highlighting, linting, etc.) as it would be treated as a normal Python file.
@@ -187,8 +189,8 @@ The final result of the `pyscript_dice.html` file should be as follows:
     <head>
         <title>PyScript Dice</title>
         <meta charset="utf-8">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@pyscript/core/dist/core.css">
-        <script type="module" src="https://cdn.jsdelivr.net/npm/@pyscript/core"></script>
+        <link rel="stylesheet" href="https://pyscript.net/snapshots/2023.09.1.RC1/core.css" />
+        <script type="module" src="https://pyscript.net/snapshots/2023.09.1.RC1/core.js"></script>
     </head>
     <body>
         <script type="py" src="./main.py"></script>
@@ -258,7 +260,7 @@ fully working!
 You can now insert the numbers in the input (e.g., 3 rolls, of 6-sides die), click on _Roll_, and random
 dice outcome will appear! 🎉
 
-### ⚙️ How it works: CORS, FFI, and DOM
+### ⚙️ How it works: the `document` object, and the `@when` decorator
 
 It's now finally time to dive into the details of our code, to learn how this simple 
 PyScript app works.
@@ -266,7 +268,8 @@ PyScript app works.
 First, let's get the simple (pure) Python function `to_int` out of the way.
 The only relevant thing to mention about it is that it is a function that attempts
 an hard-casting to an integer of a (possibly empty) string value.
-This is achieved using a `BAFTP` (i.e. _Better Ask Forgiveness Than Permission_) fashion, attempting a conversion and catching any `ValueError` exception that
+This is achieved using a `BAFTP` (i.e. _Better Ask Forgiveness Than Permission_) fashion, 
+attempting a conversion and catching any `ValueError` exception that
 may rise. This programming pattern is generally preferable over a series of `if`-clauses.
 
 The `dice_roll` Python function is the core of our logic.
