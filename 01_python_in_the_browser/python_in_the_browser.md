@@ -48,10 +48,10 @@ We will do so by replacing the first placeholder comment
 (i.e. `<!-- ADD PyScript Here -->`) with the following line:
 
 ```html
-<script type="module" src="https://cdn.jsdelivr.net/npm/@pyscript/core"></script>
+<script type="module" src="https://pyscript.net/snapshots/2023.09.1.RC1/core.js"></script>
 ```
 
-The `<script>` tag imports the `@pyscript/core` JavaScript
+The `<script>` tag imports the `core.js` JavaScript
 [module](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules), and that effectively
 enables PyScript in your application.
 
