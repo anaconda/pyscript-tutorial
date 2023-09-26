@@ -1,7 +1,10 @@
 # Getting Started with PyScript
 
-In this module, we will get our bearings with the many features PyScript provides to create
-rich web applications using Python in the browser.
+In this module, we will learn how to get started with PyScript.
+We will learn how it works, how to work with it, and will explore
+the many features PyScript provides to create rich web applications.
+
+## How to navigate through the content
 
 In each section, we will work on a single PyScript app aimed at exploring specific
 features, and capabilities offered by the platform.
@@ -18,17 +21,41 @@ There will be five sections, each sharing the same content organization:
 
 > 💡 Block-quote paragraph will also be included to highlight specific concepts, or for general remarks.
 
-To work on the apps all that you'd need is a code editor with syntax highlighting, and a Web Browser. 
-Any modern we browser would do! So please feel free to use the one you are feeling 
-most comfortable with.
+We will be using different emojis to mark block-quote paragraphs of different nature.
 
-I will be using Google Chrome, for the exact same reason. Therefore some references reported
-in the text (e.g. to the Web Inspector / JavaScript console) would need to be re-adapted
+The most common one will be:
+
+> 💡 To highlight spotlight comments, generally used for further explanations, or
+> insightful considerations.
+
+But you will also find:
+
+> ✅ To mark the end of the coding part, so that we can proceed to run our example,
+> and discuss how it works.
+
+> 🎮 To emphasize that we will use, or open the JavaScript console
+> (_and_ 🎮 _is what you'd get if you search for "console" emoji_, ed.)
+
+and finally:
+
+> 🆕 When we will be highlighting differences or similarities between the current
+> version of PyScript, and PyScript "classic".
+
+## How to work with the hands-on exercises
+
+To work on the apps all that you'd need is a code editor with syntax highlighting, 
+and a Web Browser. 
+Any modern we browser would do! So please feel free to use the one you are feeling 
+most comfortable with. I will be using Google Chrome, for the exact same reason. 
+This means that some references reported
+in the text (e.g. to the Web Inspector / JavaScript console) may need to be re-adapted
 to your web browser, accordingly.
 
-When you are working on the hands on parts, I would strongly encourage you to _write_ yourself
-the code reported in the sections (_unless sometimes differently instructed_), rather than simply
-copying and pasting it. This would help you a lot in familiarizing with the code, and the new
+When you are working on the hands on parts, I would strongly encourage you 
+to _write_ yourself the code reported in the sections 
+(_unless sometimes differently instructed_), rather than simply
+copying and pasting it. 
+This would help you a lot in familiarizing with the code, and the new
 technology, especially if you are an absolute beginner.
 
 ## Table of Content
