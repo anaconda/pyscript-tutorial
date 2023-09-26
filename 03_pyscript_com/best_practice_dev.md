@@ -1,4 +1,4 @@
-## A "dice roll" to improve your development experience in the browser
+## Best practice to work with Python in the browser
 
 When using PyScript, writing Python in the browser is as easy as including your Python code
 within the `<script type="py">` tag.
@@ -6,7 +6,7 @@ Whilst this is more than acceptable when working on _simple_ examples to familia
 new platform, this can easily become an issue when working on much more complicated apps.
 
 Moreover, you might have noticed that there is a complete lack of support from code editors
-nor any syntax highlighting when (_suddenly_, ed.) injecting Python code into HTML tags.
+nor any syntax highlighting when injecting Python code into HTML tags.
 
 🙌 No worries! PyScript got you sorted! Both the `<script type="py">` and the `<py-config>` tags
 support the `src` attribute, similar to what one would normally do when importing
@@ -33,13 +33,13 @@ Let's create again an HTML skeleton template which already includes PyScript, na
 ```
 
 Now let's save this new file as `pyscript_dice.html`.
-The name should be self-explanatory of what we are trying to achieve in this section.
+The name should be self-explanatory of what we are trying to achieve in this chapter.
 
 > ✅ That is all we needed to do to get ready! We are ready to move on to the hands-on part!
 
 ### 🧑‍💻 Hands on: Playing with random, and web events
 
-In this Section, we are about to create an interactive app to roll some dice with Python and PyScript.
+We are about to create an interactive app to roll some dice with Python and PyScript.
 In particular, we want to specify how many dice (i.e., _number of rolls_) we want to generate, and what is
 the number of sides each dice should have.
 
@@ -340,7 +340,7 @@ configurations, and `index.html` containing the actual HTML of your app.
 
 Does that remind you anything ? 😊
 
-In this section, we have been working to create exactly the same structure on our local computer.
+We have been working to create exactly the same structure on our local computer.
 With PyScript.com, you can have all that with just one click, and _you are ready to go!_.
 
 The integrated editor has full support for both HTML/JavaScript and Python programming.

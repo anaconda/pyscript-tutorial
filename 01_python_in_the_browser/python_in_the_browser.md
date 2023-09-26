@@ -15,7 +15,7 @@ Therefore, asking ourselves what kind of Python we are running in the browser op
 explore an entire new landscape (and stack) of web technologies that you may or may not have
 heard of.
 
-In this section, we will work on a very simple app trying to answer that question,
+We will work on a very simple app trying to answer that question,
 unveiling a bit of the technology that is enabling Python in the browser.
 By doing so, we will first check what version of Python is running in the browser, and 
 what are (if any) the differences with the standard Python interpreter running on our 
@@ -75,11 +75,6 @@ let's write the following code:
 ```
 
 > ✅ This example is complete! Now let's save the `first_pyscript_app.html` and open the local file into the browser.
-
-> 🆕 If you worked with PyScript classic, you may have noticed the use of 
-> `<script type="py">` instead of the custom `<py-script>` custom tag.
-> There is a dedicated paragraph at the end of this section that explains the
-> differences in more details. Please see [here](#script-typepy-vs-py-script).
 
 If everything works correctly, you should be now looking at a blank page! 😁
 I know this is probably not something you were expecting. You were perhaps expecting to 
@@ -157,7 +152,7 @@ And indeed there is some Python code, and we have already discussed that's pure 
 normally write into a general app running on your computer. So _how_ does that work really ?
 
 In the figure below, there is a high-level representation of the PyScript general architecture. 
-In the remainder of this Section, we will try to understand
+In the remainder of this chapter, we will try to understand
 what's the role of these components, and how they relate to each other.
 
 ![PyScript General Architecture](https://github.com/pyscript/docs/blob/main/docs/assets/images/platform.png)
@@ -184,15 +179,16 @@ the browser!
 
 > 💡 The version of Python running in the browser is therefore tighten to the version of the
 > Python interpreter PyScript is using. 
-> In this section, we are using `PyScript 2023.09.1` that uses `Pyodide 0.23.4`, corresponding to `Python 3.11.2`. 
+> In this module, we are using `PyScript 2023.09.1` that uses `Pyodide 0.23.4`, 
+> corresponding to `Python 3.11.2`. 
 > Older versions of Pyodide correspond to older versions of the Python interpreter.
 
 We will dive more into the details of this architecture as soon as we will
-work on the other sections in the module.
+work on the other chapters in the module.
 
 ### 🎁 Wrap up
 
-In this section we developed out first PyScript app, which was indeed really simple, and not at all 
+We developed out first PyScript app, which was indeed really simple, and not at all 
 complicated (from a mere coding perspective).
 Nonetheless this example offered lots interesting insights on _how_ PyScript actually works, and its
 architectural design.
@@ -227,7 +223,7 @@ content in our HTML page.
 - PyScript provides a `display` function to add content to the HTML.
 
 
-### `<script type="py">` vs `<py-script>`
+### 🔍 `<script type="py">` vs `<py-script>`
 
 If you worked with PyScript classic, you may have noticed the new special tag
 `<script type="py">` that we used in our example, instead of the `<py-script>`

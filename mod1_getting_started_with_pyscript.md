@@ -6,7 +6,7 @@ the many features PyScript provides to create rich web applications.
 
 ## How to navigate through the content
 
-In each section, we will work on a single PyScript app aimed at exploring specific
+In each chapter, we will work on a single PyScript app aimed at exploring specific
 features, and capabilities offered by the platform.
 
 You are totally free to choose the pace you navigate through content, depending on your
@@ -36,10 +36,10 @@ But you will also find:
 > 🎮 To emphasize that we will use, or open the JavaScript console
 > (_and_ 🎮 _is what you'd get if you search for "console" emoji_, ed.)
 
-and finally:
-
-> 🆕 When we will be highlighting differences or similarities between the current
-> version of PyScript, and PyScript "classic".
+Some chapters also include a special section (marked by the 🔍 emoji)
+dedicated to expand on particular topics introduced earlier in the chapter.
+Feel free to skip those sections while you are working on the exercises, and
+to come back at them later at any time.
 
 ## How to work with the hands-on exercises
 
@@ -62,7 +62,7 @@ technology, especially if you are an absolute beginner.
 
 1. [PyScript and _the_ Python in the Browser](./01_python_in_the_browser/python_in_the_browser.md)
 2. [The browser is your most ubiquitous computing platform](./02_pyodide/browser_as_computing_platform.md)
-3. [A "dice roll" to improve your development experience in the browser](./03_pyscript_com/better_dev_experience.md)
+3. [Best practice to work with Python in the browser](./03_pyscript_com/best_practice_dev.md)
 <!-- 4. [Reading Excel (`.xls`) files with PyScript](./04_pyscript_and_excel/04_pyscript_excel.md) -->
 
 ---

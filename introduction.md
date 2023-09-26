@@ -15,15 +15,9 @@ features and functionalities, and to immediately put in practice what we learn.
 
 We will use the **latest** (_at the time of writing_, ed.) version of
 PyScript (i.e. release `2023.09.01`), which brings lots of innovations
-(and also some _backward incompatibilities_) compared to previous releases.
-In fact, the `2023.09.01` release marks the beginning of a completely new
-and re-engineered version of the platform, so that all the other releases
-are now officially referred to as the 
-["classic"](https://github.com/pyscript/pyscript/tree/classic) PyScript.
+if compared to previous releases.
 
-We will capture and highlight the differences and novelties between the new and the 
-classic ones that we find as we work on the exercises, so that even users 
-with previous experience with PyScript can benefit from this course.
+We will try to capture and highlight all these features as we work on the exercises.
 
 > I hope you will have as much fun with this course as I had working on it. 🎉
 > _Valerio_

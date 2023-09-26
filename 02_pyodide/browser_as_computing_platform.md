@@ -15,7 +15,7 @@ open up to completely new scenarios.
 
 At the very core of Python's number crunching abilities lies [NumPy](https://numpy.org).
 
-In this section, we will explore whether and how it could be possible to 
+In this chapter, we will explore whether and how it could be possible to 
 `import numpy as np` in the browser.
 
 > 💡 Why importing Numpy would be a game changer ?
@@ -272,7 +272,7 @@ was that underneath Pyodide was **loading** the pre-built `numpy` package includ
 
 ### 🎁 Wrap up
 
-In this section we have explored how it is possible to include external (Python)
+We explored how it is possible to include external (Python)
 dependencies into our PyScript application. In particular, we learnt how to
 `import numpy as np` in our code.
 
