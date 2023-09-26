@@ -2,16 +2,16 @@
 
 Python is nowadays the most popular programming language, according to the
 [TIOBE](https://www.tiobe.com/tiobe-index/) and the
-[PYPL](https://pypl.github.io/PYPL.html) programming community indices, with
-its broader adoptions found in the Data Science domain.
+[PYPL](https://pypl.github.io/PYPL.html) programming community indices, 
+and the data science domain is where Python finds its broader adoption.
 
 Web browsers, on the other hand, are the most ubiquitous software.
 Any computer, smartphone, or device with internet access integrates
 a web browser.
 
-Therefore, getting access to the full scale of Python computing capabilities, and
-its huge ecosystem of packages, directly in the browser opens up to completely new
-scenarios.
+Therefore, having the possibility to leverage on the full scale of Python computing capabilities, 
+along with its huge ecosystem of packages, directly in the browser, would potentially 
+open up to completely new scenarios.
 
 At the very core of Python's number crunching abilities lies [NumPy](https://numpy.org).
 
@@ -103,13 +103,14 @@ display(f"type(b): {type(b)}")
 > in the `pyscript_meets_numpy.html` file.
 >
 > **Note**: If you are not super familiar with NumPy syntax, I would strongly encourage you
-> to take your time to write that snippet one line at a time (as opposed to quick and blunt Copy&Paste).
+> to take your time to write that snippet of code one line at a time (as opposed to a quick and blunt 
+> Copy&Paste).
 > In this way, you would get the opportunity to also _read_ the code, while also familiarizing with
 > NumPy's API.
 
 The above code snippet is simply trying to allocate two `numpy.ndarray`
 [objects](https://github.com/leriomaggio/python-data-science/blob/main/numpy/images/ndarray.png),
-and display some of their property (e.g. `shape`, `ndim`).
+and display some of their properties (e.g. `shape`, `ndim`).
 
 If we now save the file again, and we try to open in the browser like we did before...💥
 
@@ -247,11 +248,11 @@ This list includes a lot of the _most popular_ Packages in the PyData stack, lik
 So what _really_ happened when we included the `packages = ["numpy"]` in our `<py-config>` specification,
 was that underneath Pyodide was **loading** the pre-built `numpy` package included in the distribution.
 
-In fact, let's try to _refresh_ our solution page, but **this time**, let's open the JavaScript console.
-On Google Chrome: `View >> Developer >> JavaScript Console` and then hit the Refresh button in your browser.
-
-The relevant (`log`) messages you should be seeing in the console are:
-
+> 🎮 In order to understand better what is actually happening under the hood, let's try to _refresh_ the page, 
+> and look at the messages in the JavaScript console. 
+>
+> The relevant (`log`) messages you should be seeing in the console are:
+>
 ```bash
 [pyscript/pyodide] importing pyscript
 [pyscript/pyodide] Found packages in configuration to install. Loading micropip...
@@ -265,14 +266,9 @@ The relevant (`log`) messages you should be seeing in the console are:
 [pyscript/main] Fetching urls:
 [pyscript/pyodide] micropip install numpy
 [pyscript/main] Fetched all paths
-pyodide.asm.js:9 Loading numpy
-pyodide.asm.js:9 Loaded numpy
+[pyodide.asm.js:9] Loading numpy
+[pyodide.asm.js:9] Loaded numpy
 ```
-
-> 🤖 Use the (JavaScript) Console, Luke!
-> The JavaScript console included in almost every browser is a very useful tool when working
-> in the web. Similarly, it is an invaluable source of information when we work with PyScript.
-> I could not recommend it more when working on PyScript projects!
 
 ### 🎁 Wrap up
 
@@ -296,4 +292,4 @@ install external dependencies.
 Python wheels packages targeting the `wasm32` instruction set.
 - Pyodide includes a very long list of [supported packages](https://pyodide.org/en/stable/usage/packages-in-pyodide.html), 
 built-in within the Python distribution.
-- This list of Pyodide packages includes the majority of the most popular Python packages in the scientific stack.
+- This list of Pyodide packages includes the majority of the most popular Python packages in the scientific stack.>
