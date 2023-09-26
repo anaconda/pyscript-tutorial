@@ -1,23 +1,29 @@
 ## PyScript and _the_ Python in the Browser.
 
-One of the very first questions I asked myself when I heard about _Python in the Browser_ for the
-first time was:"Ok that sounds cool, but what do you mean by 'Python'? What kind of Python are we
-talking about?".
+One of the very first questions I asked myself when I heard about _Python in the Browser_ was:
+"What _kind of_ Python is actually running in the browser ?"
+In other words, I was very curious to understand what was behind this technology, and what
+were its capabilities.
 
-In retrospect, I am still very convinced that this is a very fair question to ask.
-This is a completely new technology. We as Python developers are very used to see our favorite language
-as a technology living and nurturing best in the _back-end_.
-But with PyScript, we are now saying that Python can also be a technology for the _front-end_ too.
-So asking what kind of Python we are indeed running in the browser opens up to understanding a bit
-more in details how this new platform actually works.
+In retrospect, I am still very convinced that those are very fair questions.
+This is a completely new paradigm for Python programming.
+We, as Python developers, are very used to see our favorite language
+as a technology living and nurturing best in the _back-end_, when it comes to
+web development.
+But with PyScript, we are now foreseeing Python as a technology for the _front-end_ too.
+Therefore, asking ourselves what kind of Python we are running in the browser opens up to
+explore an entire new landscape (and stack) of web technologies that you may or may not have
+heard of.
 
-In this section, we will work on a very simple app to try to answer this question.
-We will try to understand what version of Python is running in the browser, and what are its 
-differences with the standard Python interpreter running on the local machine.
+In this section, we will work on a very simple app trying to answer that question,
+unveiling a bit of the technology that is enabling Python in the browser.
+By doing so, we will first check what version of Python is running in the browser, and 
+what are (if any) the differences with the standard Python interpreter running on our 
+local machine.
 
 ### ⏳ Get Ready
 
-To get started. let's create a skeleton of a generic HTML page.
+To get started. let's open our code editor, and create a skeleton of a generic HTML page.
 
 Feel free to copy and paste in your editor the one reported below:
 
@@ -37,23 +43,21 @@ Feel free to copy and paste in your editor the one reported below:
 
 Let's save this file as `first_pyscript_app.html`.
 
-Let's now move onto writing some Python in this HTML page.
-
 ### 🧑‍💻 Hands on: Writing your first PyScript App
 
-The first thing we need to do, is to actually include the main PyScript assets into 
-your our HTML page.
+The first thing we need now is to include the main PyScript assets into 
+our HTML page.
 
-We will do so by replacing the first placeholder comment
-(i.e. `<!-- ADD PyScript Here -->`) with the following line:
+We will do so by replacing the placeholder comment
+`<!-- ADD PyScript Here -->` with the following line:
 
 ```html
 <script type="module" src="https://pyscript.net/snapshots/2023.09.1.RC1/core.js"></script>
 ```
 
 The `<script>` tag imports the `core.js` JavaScript
-[module](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules), and that effectively
-enables PyScript in your application.
+[module](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules), which 
+effectively enables PyScript in our application.
 
 > 💡 Believe it or not, that is the **only** single line required to enable Python in the browser.
 > No installation, and not further configuration is needed to get started!
@@ -72,29 +76,59 @@ let's write the following code:
 
 > ✅ This example is complete! Now let's save the `first_pyscript_app.html` and open the local file into the browser.
 
-If everything works correctly, you should be now looking at a blank page! 😁
-I know this is probably not something you were expecting, but I promise you: everything is in order.
+> 🆕 If you worked with PyScript classic, you may have noticed the use of 
+> `<script type="py">` instead of the custom `<py-script>` custom tag.
+> There is a dedicated paragraph at the end of this section that explains the
+> differences in more details. Please see [here](#script-typepy-vs-py-script).
 
-What I would like you to do now, is to open the JavaScript Console in your Browser (on Chrome: `View > Developer > JavaScript Console`).
+If everything works correctly, you should be now looking at a blank page! 😁
+I know this is probably not something you were expecting. You were perhaps expecting to 
+see the string printed on the page. But I promise you: everything is in order.
+
+So where the `print` output went ?
+To see it, you need to open the JavaScript Console in your Browser 
+(on Chrome: `View > Developer > JavaScript Console`).
 In the console, you should be now seeing the message we were looking for, and similar to:
 
 ```
 Running Python 3.11.2 (main, Jul  7 2023, 05:19:00) [Clang 17.0.0 (https://github.com/llvm/llvm-project df82394e7a2d06506718cafa347b in the Browser!
 ```
 
-The very first thing we have discovered is that the Python `print` function in PyScript does not work in the way you might have expected,
-i.e., it is not supposed to be used to write textual content into `HTML`. We will refine, and expand more on this in a second.
+> 🎮 The JavaScript console is a very useful tool when working
+> in the web. Similarly, it is an invaluable source of information when we work with PyScript.
+> I could not recommend it more! And we will end up using and/or referencing a lot 
+> of times throughout this module.
 
-Let's focus now instead on the version of Python we have obtained: **Python 3.11.2**. So this is neither a "special" nor a "surrogate"
-version of the Python interpreter, but instead standard Python 3.11 running in the browser.
+The very first thing we learned is that the Python `print` function in PyScript 
+does not work in a way you might have expected,
+i.e., it is not supposed to be used to write textual content into `HTML`. 
+We will refine, and expand more on this soon.
 
-As already mentioned, the `print` Python function works as a logger in the console, and cannot be used to modify the content of the HTML
-page. Although this is indeed quite reasonable (and perhaps even expected), let's keep in mind that a web page
-is indeed a structured document. So even determining where in the document the text should be added, is not trivial.
-For this reason, PyScript provides an easy function to manipulate the page
-[`DOM`](https://developer.mozilla.org/en-US/docs/Glossary/DOM) (Document Object Model) named `display`.
+Let's focus now instead on the _version_ of Python, i.e. **Python 3.11.2**.
+As a matter of facts, the Python we are running in the browser is neither a "special" nor 
+a "surrogate" version of the language. But rather standard Python `3.11` running in the 
+browser. This is indeed amazing, as potentially the full capabilities of the language
+can now be used in the browser!
 
-Let's change our Python code, so that we can show the Python version directly in the web page:
+It is now time to focus on the `print` Python function. This function in PyScript works as a 
+logger in the console (i.e. similar to `console.log` in JavaScript), and cannot be used in any way
+to change the content of the HTML page.
+Let's keep in mind that a web page is indeed a structured document, with its own object model:
+the [`DOM`](https://developer.mozilla.org/en-US/docs/Glossary/DOM), Document Object Model. 
+So determining where in the document the content should be added, is not trivial.
+
+> 🆕 If you have worked with previous versions of PyScript, you may have noticed a difference here.
+> In PyScript classic, the output every `print` call is automatically redirected to a 
+> custom element, called 
+> [`<py-terminal>`](https://docs.pyscript.net/latest/reference/plugins/py-terminal.html#py-terminal). 
+> `<py-terminal>` is a special _plug-in_ in PyScript classic that specifically served the 
+> purpose to capture all the output on `stderr` and `stdout`. Currently plug-ins are not
+> yet supported in the latest version of PyScript, and so neither is `<py-terminal>`.
+
+To add and visualize generic content in the HTML page, PyScript provides an easy-to-use
+utility function called `display`.
+
+Let's change our Python code, to use the `display` PyScript function instead of `print`:
 
 ```html
 <script type="py">
@@ -106,8 +140,8 @@ Let's change our Python code, so that we can show the Python version directly in
 </script>
 ```
 
-If you now save the `first_pyscript_app.html` and refresh the page in the browser, you should be seeing the Python version
-displayed directly in the document.
+If you now save the `first_pyscript_app.html` and refresh the page in the browser, 
+you should be seeing the Python version displayed directly in the document.
 
 > 💡 You may have noticed that the address bar in your browser reports something like
 > `file://<path on your local hard drive>/first_pyscript_app.html`.
@@ -193,19 +227,18 @@ content in our HTML page.
 - PyScript provides a `display` function to add content to the HTML.
 
 
-### EXTRA 🔍 `<script type="py">` vs `<py-script>`
+### `<script type="py">` vs `<py-script>`
 
-If you have already worked with previous versions of PyScript,
-or you have seen some examples on PyScript apps on the internet, you might have noticed the new special tag
-`<script type="py">` that we used in our example, instead of the more "classic" `<py-script>` one.
+If you worked with PyScript classic, you may have noticed the new special tag
+`<script type="py">` that we used in our example, instead of the `<py-script>`
+custom element.
 
-The `PyScript 2023.09.1` release has introduced the new
-`<script type="py">` as a **synonym** for `<py-script>`. Reason for using the new synonym are manifold.
+The new PyScript release inf fact has introduced the new
+`<script type="py">` as an alternative for `<py-script>`. 
+Reason for using the new tag are manifold.
 
 `TL;DR`: Using `<script type="py">` would solve issues with your Python code containing HTML reserved
 characters, such as `<`, or `>`.
-
-_Extended Explanation_:
 
 Custom elements, namely HTML `tags` that are not part of the HTML
 [Namespace](https://developer.mozilla.org/en-US/docs/Glossary/Namespace) (e.g. `<py-script>`) are
