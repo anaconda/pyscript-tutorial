@@ -190,6 +190,15 @@ The PyScript platform then communicates directly to the Python interpreters comp
 The <u>default</u> interpreter used by PyScript is [**Pyodide**](https://pyodide.org), 
 that is a "port" of the standard CPython interpreter to WASM.
 
+> 💡 At this point, it is worth mentioning **another** quite crucial feature of using PyScript and Python in the browser.
+> So far we were not using nor relying _at all_ on any local Python distribution (if any!)
+> to run the examples. The Python interpreter that runs in the browser on WASM is automatically downloaded
+> by PyScript (i.e. `core.js`) when loading the HTML page.
+> Therefore, it means that _any_ PyScript app can be easily distributed, without requiring users to install and configure
+> Python on their computers!
+>
+> In other words: PyScript apps are **self-contained**.
+
 In a nutshell, WASM (Web Assembly) is a binary instruction format that is designed 
 as a portable compilation 
 target for multiple programming languages.
