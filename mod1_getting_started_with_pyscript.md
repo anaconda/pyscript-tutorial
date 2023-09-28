@@ -43,18 +43,35 @@ to come back at them later at any time.
 
 ## How to work with the hands-on exercises
 
-To work on the apps all that you'd need is a code editor with syntax highlighting, 
-and a Web Browser. 
-Any modern we browser would do! So please feel free to use the one you are feeling 
-most comfortable with. I will be using Google Chrome, for the exact same reason. 
+To work on the apps we will be using [PyScript.com](https://pyscript.com),
+that is a flexible coding environment specifically designed
+to immediately work with PyScript.
+
+PyScript.com is completely **free** to use. You only need to sign up
+to create your account, and you are ready to go.
+
+Once logged in, you get access to your **Dashboard**, where all your apps reside,
+along with a public catalog of _Trending_ and _Featured_ apps.
+
+Last but (_by no means_, ed.) not least, PyScript.com provides out of the box
+an easy way to _distribute_ and _share_ your apps, as well as to _clone_ other
+existing apps.
+
+PyScript.com is indeed absolutely perfect to get started with PyScript.
+We will explore a bit more in details some of its features in chapter 1, and we
+will use to work on all the exercises in this module.
+
+As for the web browser, any modern we browser would do!
+So please feel free to use the one you are feeling
+most comfortable with. I will be using Google Chrome, for the exact same reason.
 This means that some references reported
 in the text (e.g. to the Web Inspector / JavaScript console) may need to be re-adapted
 to your web browser, accordingly.
 
-When you are working on the hands on parts, I would strongly encourage you 
+When you are working on the hands on parts, I would strongly encourage you
 to _write_ yourself the code reported in the sections 
 (_unless sometimes differently instructed_), rather than simply
-copying and pasting it. 
+copying and pasting it.
 This would help you a lot in familiarizing with the code, and the new
 technology, especially if you are an absolute beginner.
 

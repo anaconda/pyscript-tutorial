@@ -15,7 +15,7 @@ features and functionalities, and to immediately put in practice what we learn.
 
 We will use the **latest** (_at the time of writing_, ed.) version of
 PyScript (i.e. release `2023.09.01`), which brings lots of innovations
-if compared to previous releases.
+compared to previous releases.
 
 We will try to capture and highlight all these features as we work on the exercises.
 
