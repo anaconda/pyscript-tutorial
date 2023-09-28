@@ -77,7 +77,7 @@ technology, especially if you are an absolute beginner.
 
 ## Table of Content
 
-1. [PyScript and _the_ Python in the Browser](./01_python_in_the_browser/python_in_the_browser.md)
+1. [PyScript and _the_ Python in the Browser](./01_python_in_the_browser.md)
 2. [The browser is your most ubiquitous computing platform](./02_pyodide/browser_as_computing_platform.md)
 3. [Best practice to work with Python in the browser](./03_pyscript_com/best_practice_dev.md)
 <!-- 4. [Reading Excel (`.xls`) files with PyScript](./04_pyscript_and_excel/04_pyscript_excel.md) -->
