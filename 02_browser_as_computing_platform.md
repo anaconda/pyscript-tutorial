@@ -1,4 +1,4 @@
-## 2 - Your browser is your most ubiquitous computing platform
+## Your browser is your most ubiquitous computing platform
 
 Python is nowadays the most popular programming language, according to the
 [TIOBE](https://www.tiobe.com/tiobe-index/) and the
@@ -9,9 +9,9 @@ Web browsers, on the other hand, are the most ubiquitous software.
 Any computer, smartphone, or device with internet access integrates
 a web browser.
 
-Therefore, having the possibility to leverage on the full scale of Python computing capabilities, 
-along with its huge ecosystem of packages, directly in the browser, would potentially 
-open up to completely new scenarios.
+Therefore, having the possibility to leverage on the full scale of Python 
+computing capabilities, along with its huge ecosystem of packages, directly in the browser, 
+would potentially open up to completely new scenarios.
 
 At the very core of Python's number crunching abilities lies [NumPy](https://numpy.org).
 
@@ -37,6 +37,8 @@ In this chapter, we will explore whether and how it could be possible to
 
 
 ### ⏳ Get Ready
+
+
 
 Let's start by creating a simple HTML page template, similarly to what we did 
 in the [Get Ready](../01_python_in_the_browser/python_in_the_browser.md#⏳-get-ready)
@@ -176,6 +178,16 @@ new `<py-config>` tag:
   packages = ["numpy"]
 </py-config>
 ```
+
+> 💡 Similarly to the `<script type="py">` tag, also the `<py-config>` tag supports loading
+> the configuration directives from external resources, via `src`.
+> Configuration files can use either [TOML](https://learnxinyminutes.com/docs/toml/) or
+> [JSON](https://www.freecodecamp.org/news/what-is-json-a-json-file-example/) syntax.
+> The TOML format is the default, and we will be using this throughout the course, as it is
+> (a) less verbose than JSON; (b) more intuitive and easier to write; (c) it is the same
+> format used to specify 
+> [packages metadata](https://packaging.python.org/en/latest/tutorials/packaging-projects/#creating-pyproject-toml) 
+> (i.e. `pyproject.toml`).
 
 Let's add the `<py-config>` reported above to our `pyscript_meets_numpy.html` file right after the `<body>` tag, and save it.
 

@@ -69,7 +69,7 @@ in the text (e.g. to the Web Inspector / JavaScript console) may need to be re-a
 to your web browser, accordingly.
 
 When you are working on the hands on parts, I would strongly encourage you
-to _write_ yourself the code reported in the sections 
+to _write_ yourself the code reported in the sections
 (_unless sometimes differently instructed_), rather than simply
 copying and pasting it.
 This would help you a lot in familiarizing with the code, and the new
@@ -79,7 +79,7 @@ technology, especially if you are an absolute beginner.
 
 1. [PyScript and _the_ Python in the Browser](./01_python_in_the_browser.md) | [App](https://leriomaggio.pyscriptapps.com/get-started-with-pyscript/latest/)
 2. [Interactive Apps and FFI](./02_interactive_apps_and_ffi.md) | [App](https://leriomaggio.pyscriptapps.com/pyscript-dice-roller/latest/)
-<!-- 3. [The browser is your most ubiquitous computing platform](./02_pyodide/browser_as_computing_platform.md) -->
+3. [The browser is your most ubiquitous computing platform](./03_browser_as_computing_platform.md) | [App](https://leriomaggio.pyscriptapps.com/3d-voxel-plot-of-numpy/latest)
 <!-- 4. [Reading Excel (`.xls`) files with PyScript](./04_pyscript_and_excel/04_pyscript_excel.md) -->
 
 ---
