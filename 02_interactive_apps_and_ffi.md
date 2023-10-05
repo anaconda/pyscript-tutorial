@@ -38,6 +38,7 @@ Feel free to write any short description to your app. For example:
 > An interactive Dice Roller App with PyScript and Micropython.
 
 Click on the **Update** button to save the settings.
+Similarly, please update the metadata contained in the `pyscript.toml` file.
 
 Now, please open the `index.html` file, and update the `<title>` tag with a more appropriate
 `PyScript Dice Roller`.
@@ -52,93 +53,93 @@ program the core logic in Python afterwards.
 The `<!--  Add HTML TAGS here -->` placeholder can now be replaced with the following HTML:
 ```html
 <h3>Dice Roller</h3>
-        <div class="row">
-            <div class="col-9">
-                <div class="btn-group" role="group" aria-label="Number of Dice Group">
-                    <input type="radio" class="btn-check ndice" name="btn-dice" id="btn1" 
-                           data-dice="1" autocomplete="off" checked>
-                    <label class="btn btn-outline-secondary" for="btn1">1</label>
+<div class="row">
+    <div class="col-9">
+        <div class="btn-group" role="group" aria-label="Number of Dice Group">
+            <input type="radio" class="btn-check ndice" name="btn-dice" id="btn1" 
+                    data-dice="1" autocomplete="off" checked>
+            <label class="btn btn-outline-secondary" for="btn1">1</label>
 
-                    <input type="radio" class="btn-check ndice" name="btn-dice" id="btn2" 
-                           data-dice="2" autocomplete="off">
-                    <label class="btn btn-outline-secondary" for="btn2">2</label>
+            <input type="radio" class="btn-check ndice" name="btn-dice" id="btn2" 
+                    data-dice="2" autocomplete="off">
+            <label class="btn btn-outline-secondary" for="btn2">2</label>
 
-                    <input type="radio" class="btn-check ndice" name="btn-dice" id="btn3" 
-                           data-dice="3" autocomplete="off">
-                    <label class="btn btn-outline-secondary" for="btn3">3</label>
+            <input type="radio" class="btn-check ndice" name="btn-dice" id="btn3" 
+                    data-dice="3" autocomplete="off">
+            <label class="btn btn-outline-secondary" for="btn3">3</label>
 
-                    <input type="radio" class="btn-check ndice" name="btn-dice" id="btn4"
-                           data-dice="4" autocomplete="off">
-                    <label class="btn btn-outline-secondary" for="btn4">4</label>
+            <input type="radio" class="btn-check ndice" name="btn-dice" id="btn4"
+                    data-dice="4" autocomplete="off">
+            <label class="btn btn-outline-secondary" for="btn4">4</label>
 
-                    <input type="radio" class="btn-check ndice" name="btn-dice" id="btn5" 
-                           data-dice="5" autocomplete="off">
-                    <label class="btn btn-outline-secondary" for="btn5">5</label>
+            <input type="radio" class="btn-check ndice" name="btn-dice" id="btn5" 
+                    data-dice="5" autocomplete="off">
+            <label class="btn btn-outline-secondary" for="btn5">5</label>
 
-                    <input type="radio" class="btn-check ndice" name="btn-dice" id="btn10" 
-                           data-dice="10" autocomplete="off">
-                    <label class="btn btn-outline-secondary" for="btn10">10</label>
-                </div>
-                <div class="col-3 text-center">
-                    <span>Number of Dice</span>
-                </div>
-            </div>
-        </div> <!-- end row -->
-        <div class="row" style="margin-top: 20px;">
-            <div class="col-12 p-3">
-                <div class="btn-group" role="group" aria-label="Die group">
-                    <input type="radio" class="btn-check die" name="btn-d" id="btnd4" 
-                           data-dice="4" autocomplete="off" checked>
-                    <label class="btn btn-outline-warning" for="btnd4">
-                        <img src="https://rgbstudios.org/img/projects/other/icon-d4.svg" 
-                             alt="d4" class="w-6 h-6 mr-2">
-        				d4
-                    </label>
-
-                    <input type="radio" class="btn-check die" name="btn-d" id="btnd6" 
-                           data-dice="6" autocomplete="off">
-                    <label class="btn btn-outline-warning" for="btnd6">
-                        <img src="https://rgbstudios.org/img/projects/other/icon-d6.svg" 
-                             alt="d6" class="w-6 h-6 mr-2">
-        				d6
-                    </label>
-
-                    <input type="radio" class="btn-check die" name="btn-d" id="btnd8" 
-                           data-dice="8" autocomplete="off">
-                    <label class="btn btn-outline-warning" for="btnd8">
-                        <img src="https://rgbstudios.org/img/projects/other/icon-d8.svg" 
-                             alt="d8">
-        				d8
-                    </label>
-
-                    <input type="radio" class="btn-check die" name="btn-d" id="btnd12" 
-                           data-dice="12" autocomplete="off">
-                    <label class="btn btn-outline-warning" for="btnd12">
-                        <img src="https://rgbstudios.org/img/projects/other/icon-d12.svg" 
-                             alt="d12">
-        				d12
-                    </label>
-
-                    <input type="radio" class="btn-check die" name="btn-d" id="btnd20" 
-                           data-dice="20" autocomplete="off">
-                    <label class="btn btn-outline-warning" for="btnd20">
-                        <img src="https://rgbstudios.org/img/projects/other/icon-d20.svg" 
-                             alt="d20">
-        				d20
-                    </label>
-                </div>
-            </div>
-        </div> <!-- end row -->
-        <div class="row">
-            <div class="col-3">
-                <button type="button" class="btn btn-primary" id="roll">Roll</button>
-            </div>
+            <input type="radio" class="btn-check ndice" name="btn-dice" id="btn10" 
+                    data-dice="10" autocomplete="off">
+            <label class="btn btn-outline-secondary" for="btn10">10</label>
         </div>
-        <div class="row" id="outcome-container" style="opacity: 0;">
-            <div class="col-12">
-                <div id="outcome"></div>
-            </div>
+        <div class="col-3 text-center">
+            <span>Number of Dice</span>
         </div>
+    </div>
+</div> <!-- end row -->
+<div class="row" style="margin-top: 20px;">
+    <div class="col-12 p-3">
+        <div class="btn-group" role="group" aria-label="Die group">
+            <input type="radio" class="btn-check die" name="btn-d" id="btnd4" 
+                    data-dice="4" autocomplete="off" checked>
+            <label class="btn btn-outline-warning" for="btnd4">
+                <img src="https://rgbstudios.org/img/projects/other/icon-d4.svg" 
+                        alt="d4" class="w-6 h-6 mr-2">
+                d4
+            </label>
+
+            <input type="radio" class="btn-check die" name="btn-d" id="btnd6" 
+                    data-dice="6" autocomplete="off">
+            <label class="btn btn-outline-warning" for="btnd6">
+                <img src="https://rgbstudios.org/img/projects/other/icon-d6.svg" 
+                        alt="d6" class="w-6 h-6 mr-2">
+                d6
+            </label>
+
+            <input type="radio" class="btn-check die" name="btn-d" id="btnd8" 
+                    data-dice="8" autocomplete="off">
+            <label class="btn btn-outline-warning" for="btnd8">
+                <img src="https://rgbstudios.org/img/projects/other/icon-d8.svg" 
+                        alt="d8">
+                d8
+            </label>
+
+            <input type="radio" class="btn-check die" name="btn-d" id="btnd12" 
+                    data-dice="12" autocomplete="off">
+            <label class="btn btn-outline-warning" for="btnd12">
+                <img src="https://rgbstudios.org/img/projects/other/icon-d12.svg" 
+                        alt="d12">
+                d12
+            </label>
+
+            <input type="radio" class="btn-check die" name="btn-d" id="btnd20" 
+                    data-dice="20" autocomplete="off">
+            <label class="btn btn-outline-warning" for="btnd20">
+                <img src="https://rgbstudios.org/img/projects/other/icon-d20.svg" 
+                        alt="d20">
+                d20
+            </label>
+        </div>
+    </div>
+</div> <!-- end row -->
+<div class="row">
+    <div class="col-3">
+        <button type="button" class="btn btn-primary" id="roll">Roll</button>
+    </div>
+</div>
+<div class="row" id="outcome-container" style="opacity: 0;">
+    <div class="col-12">
+        <div id="outcome"></div>
+    </div>
+</div>
 ```
 
 The listing is quite articulate, so I would recommend hit the `Save` 
