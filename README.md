@@ -88,7 +88,7 @@ to create your account, and you are ready to go.
 Once logged in, you get access to your **Dashboard**, where all your apps reside,
 along with a public catalog of _Trending_ and _Featured_ apps.
 
-Last but (_by no means_, ed.) not least, PyScript.com provides out of the box
+Last but (_by any means_, ed.) not least, PyScript.com provides out of the box
 an easy way to _distribute_ and _share_ your apps, as well as to _clone_ other
 existing apps.
 
@@ -115,6 +115,6 @@ technology, especially if you are an absolute beginner.
 1. [PyScript and _the_ Python in the Browser](./01_python_in_the_browser.md) | [App](https://leriomaggio.pyscriptapps.com/get-started-with-pyscript/latest/)
 2. [Interactive Apps and FFI](./02_interactive_apps_and_ffi.md) | [App](https://leriomaggio.pyscriptapps.com/pyscript-dice-roller/latest/)
 3. [The browser is your most ubiquitous computing platform](./03_browser_as_computing_platform.md) | [App](https://leriomaggio.pyscriptapps.com/3d-voxel-plot-of-numpy/latest)
-<!-- 4. [Reading Excel (`.xls`) files with PyScript](./04_pyscript_and_excel/04_pyscript_excel.md) -->
+
 
 ---
