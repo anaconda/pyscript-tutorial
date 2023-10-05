@@ -2,20 +2,20 @@
 
 Python is nowadays the most popular programming language, according to the
 [TIOBE](https://www.tiobe.com/tiobe-index/) and the
-[PYPL](https://pypl.github.io/PYPL.html) programming community indices, 
-and the data science domain is where Python finds its broader adoption.
+[PYPL](https://pypl.github.io/PYPL.html) programming community indices; and
+the data science domain is where Python finds its broader adoption.
 
 Web browsers, on the other hand, are the most ubiquitous software.
-Any computer, smartphone, or device with internet access integrates
-a web browser.
+Any computer, laptop, smartphone, or any device with access to the internet integrates
+a web browser. Therefore, if we could have the possibility to integrate directly into
+the browser Python's numerical processing capabilities, along with its huge ecosystem
+and libraries, we would open up to completely new scenarios for data science.
 
-Therefore, having the possibility to leverage on the full scale of Python 
-computing capabilities, along with its huge ecosystem of packages, directly in the browser, 
-would potentially open up to completely new scenarios.
+The first thing that comes in mind when thinking to numerical processing with Python is
+[NumPy](https://numpy.org). NumPy, namely "Numerical Python", is the core library and
+de-facto standard for all data science packages in the scientific Python ecosystem.
 
-At the very core of Python's number crunching abilities lies [NumPy](https://numpy.org).
-
-In this chapter, we will explore whether and how it could be possible to 
+In this chapter, we will explore how it could be possible to 
 `import numpy as np` in the browser.
 
 > 💡 Why importing Numpy would be a game changer ?
@@ -31,103 +31,140 @@ In this chapter, we will explore whether and how it could be possible to
 > [`SIMD`](https://en.wikipedia.org/wiki/Single_instruction,_multiple_data).
 
 
-**NOTE for future-self & reviewer: Missing reference here, in case remove//add later**
-> If you are interested in learning more about how PyScript can be used to develop
-> rich web apps for Data Science and Machine Learning, please read module `XXX`
-
-
 ### ⏳ Get Ready
 
+To get starter, let's **duplicate** our PyScript App 
+[template](https://pyscript.com/@leriomaggio/pyscript-app-template/latest)
+by clicking on the "Clone Project <svg viewBox="0 0 32 32" width="1.2em" height="1.2em" class="-rotate-90 text-base sm:text-sm"><path fill="currentColor" d="M26 18a3.996 3.996 0 0 0-3.858 3H17V11h5.142a4 4 0 1 0 0-2H17a2.002 2.002 0 0 0-2 2v4H9.858a4 4 0 1 0 0 2H15v4a2.002 2.002 0 0 0 2 2h5.142A3.993 3.993 0 1 0 26 18Zm0-10a2 2 0 1 1-2 2a2.002 2.002 0 0 1 2-2ZM6 18a2 2 0 1 1 2-2a2.002 2.002 0 0 1-2 2Zm20 6a2 2 0 1 1 2-2a2.002 2.002 0 0 1-2 2Z"></path></svg>" button.
 
+Once it's done, let's rename the new app as "3D voxel plot with NumPy", and then let's 
+update the app metadata, accordingly:
+> 3D Plotting with NumPy and Matplotlib with PyScript & Pyodide.
 
-Let's start by creating a simple HTML page template, similarly to what we did 
-in the [Get Ready](../01_python_in_the_browser/python_in_the_browser.md#⏳-get-ready)
-section of our first PyScript app.
+Similarly, please update the metadata contained in the `pyscript.toml` file.
 
+In this app, we will demonstrate how it is possible to (dynamically) generate 3D plots using
+NumPy and [Matplotlib](https://matplotlib.org/) running in the browser via PyScript.
+
+> 💡 If you are not completely familiar with these two Python libraries, don't worry! 
+> It is completely fine, and it won't be necessary to have previous experience with these
+> packages to work on our app! Also, we will explain in details the crucial parts of our 
+> implementation in the How-to section. Let's just say that NumPy and Matplotlib are the
+> two most popular, and essential libraries in the Python scientific ecosystem.
+> We will see them in action in the browser working in a new way, integrating with the
+> interactive and _asynchronous_ nature of the browser environment.
+
+> ✅ Perfect! We are now ready to move on to the hands-on part!
+
+### 🧑‍💻 Hands on: Interactive 3D Voxel Plots
+
+First, let's create the skeleton of our HTML page. To do so, let's replace
+the `<!--  Add HTML TAGS here -->` placeholder with the following:
 ```html
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <title>PyScript meets NumPy</title>
-        <meta charset="utf-8">
-        <link rel="stylesheet" href="https://pyscript.net/snapshots/2023.09.1.RC1/core.css" />
-        <script type="module" src="https://pyscript.net/snapshots/2023.09.1.RC1/core.js"></script>
-    </head>
-    <body>
-        <script type="py">
-            # Add your code here
-        </script>
-    </body>
-</html>
+<div class="row">
+  <div class="col">
+      <h3 class="display-3">3D Plot with PyScript</h4>
+      <div id="plot">
+          <div></div>
+      </div>
+  </div>
+</div>
+<h3 class="display-4">Configure Cube</h3>
+<div class="row">
+  <div class="col-4 p-3">
+      <div class="input-group">
+          <label for="x_dim" class="form-label">X:</label>
+          <input type="range" class="form-range" min="1" max="15" step="1"
+                  value="3" id="x_dim" oninput="this.nextElementSibling.value = this.value" disabled>
+          <output class="form-control">3</output>
+      </div>
+  </div>
+  <div class="col-4 p-3">
+      <div class="input-group">
+          <label for="y_dim" class="form-label">Y:</label>
+          <input type="range" class="form-range" min="1" max="15" step="1" 
+                  value="3" id="y_dim" oninput="this.nextElementSibling.value = this.value" disabled>
+          <output class="form-control">3</output>
+      </div>
+  </div>
+  <div class="col-4 p-3">
+      <div class="input-group">
+          <label for="z_dim" class="form-label">Z:</label>
+          <input type="range" class="form-range" min="1" max="10" step="1" 
+                  value="3" id="z_dim" oninput="this.nextElementSibling.value = this.value" disabled>
+          <output class="form-control">3</output>
+      </div>
+  </div>
+  <div class="col-6 p-3">
+      <div class="input-group mb-3">
+          <label for="border_color" class="form-label">Outside Cubes Edge Color:</label>
+          <input type="color" name="border_color"  
+                  class="form-control form-control-color" 
+                  id="border_color" value="#BFAB6E" 
+                  title="Choose the color of cubes on the outside edges"
+                  disabled
+            />
+      </div>
+      <div class="input-group mb-3">
+          <label for="inner_color" class="form-label">Inside Cubes Edge Color:</label>
+          <input type="color" name="inner_color"  
+                  class="form-control form-control-color" 
+                  id="inner_color" value="#7D84A6"
+                  title="Choose the color of cubes on the inner edges"
+                  disabled
+          />
+      </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+      <input class="btn btn-primary" type="button" id="btn_gen" value="Generate Plot" disabled />
+      <input class="btn btn-secondary" type="button" id="btn_reset" value="Reset" disabled />
+  </div>
+</div>
 ```
 
-Let's save this template as a **new** file, named `pyscript_meets_numpy.html`.
+At this point, I would recommend to click on the `Save` 
+button, and then the `Run` button to see the result.
 
-> 💡 In addition to the PyScript core module, this time we will also import the PyScript CSS 
-> (i.e. Cascading Stylesheet),
-> namely `core.css`. This asset defines the display rules of custom PyScript components.
+The content of the page is basically organized in two main sections. On the
+top there is the placeholder where the plot will be displayed, once generated
+by our Python code (_that we are going to write next_, ed.). This placeholder
+is identified by the element with id `plot`: `<div id="plot">...</div>`.
+The other part of the page contains several components to configure the 
+voxels we want to generate in our 3D plot. In particular, we can choose how
+many voxels we will generate per each axis (i.e., `x`, `y`, and `z`), and
+the edge colors of voxels on the outside border, and the internal ones.
+All the components are automatically set to default values, with `3` cubes
+per each axis, and with default colors of the (_old_, ed.) NumPy
+[logo](https://commons.wikimedia.org/wiki/File:NumPy_logo.svg).
+Now it's time to move to implement the logic in Python.
 
-### 🧑‍💻 Hands on: Importing NumPy
+> 💡 You may have noticed that all the interactive components in our page,
+> i.e., slides, color pickers, and buttons, are _disabled_ by default.
+> We will discuss this later in the `⚙️ How it works` section.
 
-First thing, let's write some Python code that uses NumPy, and what a better example than the
-[_first one_](https://numpy.org/doc/stable/user/quickstart.html#an-example) gathered from the
-official NumPy [documentation](https://numpy.org/doc/stable)?
+The first thing we are going to try is to open the `main.py`
+and add this simple line of code in the code:
 
 ```python
-# Adapted from https://numpy.org/doc/stable/user/quickstart.html#an-example
-from pyscript import display
-
 import numpy as np
-
-a = np.arange(15).reshape(3, 5)
-display(f"NDArray a: \n{a}")
-# Expected:
-# array([[ 0,  1,  2,  3,  4],
-#       [ 5,  6,  7,  8,  9],
-#       [10, 11, 12, 13, 14]])
-display(f"a.shape: {a.shape}")
-# Expected:
-# (3, 5)
-display(f"a.ndim: {a.ndim}")
-# Expected: 2
-display(f"a.dtype.name: {a.dtype.name}")
-# Expected: 'int64'
-display(f"type(a): {type(a)}")
-# Expected <class 'numpy.ndarray'>
-b = np.array([6, 7, 8])
-display(f"b: {b}")
-# Expected: array([6, 7, 8])
-display(f"type(b): {type(b)}")
-# Expected: <class 'numpy.ndarray'>
 ```
 
-> 🧑‍💻 Let's now write the code from the snippet above within the `<script type="py">` tag
-> in the `pyscript_meets_numpy.html` file.
->
-> **Note**: If you are not super familiar with NumPy syntax, I would strongly encourage you
-> to take your time to write that snippet of code one line at a time (as opposed to a quick and blunt 
-> Copy&Paste).
-> In this way, you would get the opportunity to also _read_ the code, while also familiarizing with
-> NumPy's API.
+Now, let's **save** and click **Run** to see if that works...💥
 
-The above code snippet is simply trying to allocate two `numpy.ndarray`
-[objects](https://github.com/leriomaggio/python-data-science/blob/main/numpy/images/ndarray.png),
-and display some of their properties (e.g. `shape`, `ndim`).
-
-If we now save the file again, and we try to open in the browser like we did before...💥
-
-You should get the Python [Traceback](https://docs.python.org/3/library/traceback.html) as the one
-reported below:
+You should get the Python [Traceback](https://docs.python.org/3/library/traceback.html) 
+as the one reported below:
 
 ```bash
 Traceback (most recent call last):
-  File "/lib/python311.zip/_pyodide/_base.py", line 468, in eval_code
+  File "/lib/python311.zip/_pyodide/_base.py", line 499, in eval_code
     .run(globals, locals)
      ^^^^^^^^^^^^^^^^^^^^
-  File "/lib/python311.zip/_pyodide/_base.py", line 310, in run
+  File "/lib/python311.zip/_pyodide/_base.py", line 340, in run
     coroutine = eval(self.code, globals, locals)
                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "<exec>", line 5, in <module>
+  File "<exec>", line 1, in <module>
 ModuleNotFoundError: The module 'numpy' is included in the Pyodide distribution, but it is not installed.
 You can install it by calling:
   await micropip.install("numpy") in Python, or
@@ -135,12 +172,12 @@ You can install it by calling:
 See https://pyodide.org/en/stable/usage/loading-packages.html for more details.
 ```
 
-First thing to highlight from this example: **Error Handling**.
+First thing to highlight from this is: **Error Handling**.
 
 PyScript is giving direct access to the Python traceback in the browser.
-This is indeed a huge deal, as clear _error reporting_ is a crucial part in coding. 
+This is indeed a huge deal, as clear _error reporting_ is a crucial part in coding.
 This also perfectly ties with the
-major improvements in error handling introduced in Python 3.11 
+major improvements in error handling introduced in Python 3.11
 (See [PEP657](https://docs.python.org/3/whatsnew/3.11.html#whatsnew311-pep657)).
 
 The most relevant part of the traceback is contained in the last five lines:
@@ -153,13 +190,14 @@ You can install it by calling:
 See https://pyodide.org/en/stable/usage/loading-packages.html for more details.
 ```
 
-PyScript (and then of course, Pyodide) is reporting (line `1`) that our code is trying to import a `numpy` module that
+PyScript (and then of course, the Pyodide interpreter that is running on WASM) is reporting (line `1`) that
+our code is trying to import a `numpy` module that
 cannot be found because (A) it is not part of the Pyodide distribution
 (i.e. the _Python Standard library on WASM_, ed.), and (B) it is **not installed**!
 It then continues (Lines `3-5`) showing how to _install_ a package using Pyodide APIs.
 
 The first important take-away message is that only the Python Standard Library
-is available by default, when using PyScript/Pyodide.
+is available by default, when using the Pyodide interpreter via PyScript.
 To use any other package, one would need to load them separately.
 
 Luckily, Pyodide supports the installation of external packages using
@@ -167,21 +205,25 @@ Luckily, Pyodide supports the installation of external packages using
 and PyScript has direct
 [integration](https://micropip.pyodide.org/en/v0.2.2/project/micropip-in-other-projects.html#pyscript) with `micropip`.
 
-In fact, PyScript provides a special `<py-config>` tag that is specifically designed to configure your PyScript app.
-One thing you can do with the `<py-config>` tag is to declare package dependencies.
-
 To declare the dependencies in our PyScript app we would just need to include the `packages` directive within the 
-new `<py-config>` tag:
+`pyscript.toml` configuration files:
 
-```html
-<py-config>
-  packages = ["numpy"]
-</py-config>
+```
+packages = ["numpy", "matplotlib"]
 ```
 
-> 💡 Similarly to the `<script type="py">` tag, also the `<py-config>` tag supports loading
-> the configuration directives from external resources, via `src`.
-> Configuration files can use either [TOML](https://learnxinyminutes.com/docs/toml/) or
+> 💡 Let's also include `matplotlib` to the list of our packages, as we already know we will 
+> require Matplotlib for our app!
+
+> 💡 If we run our PyScript code using the MicroPython interpreter (`<script type="mpy">`)
+> the `packages` directive in the configuration will be ignored, as MicroPython currently 
+> does not support external packages, or similar technologies like `micropip` in Pyodide.
+
+If we now **save** and **run** our app, the import error will work! 
+We will discuss this in more details in the next `⚙️ How it works` 
+section.
+
+> 💡 PyScript configurations can use either [TOML](https://learnxinyminutes.com/docs/toml/) or
 > [JSON](https://www.freecodecamp.org/news/what-is-json-a-json-file-example/) syntax.
 > The TOML format is the default, and we will be using this throughout the course, as it is
 > (a) less verbose than JSON; (b) more intuitive and easier to write; (c) it is the same
@@ -189,75 +231,261 @@ new `<py-config>` tag:
 > [packages metadata](https://packaging.python.org/en/latest/tutorials/packaging-projects/#creating-pyproject-toml) 
 > (i.e. `pyproject.toml`).
 
-Let's add the `<py-config>` reported above to our `pyscript_meets_numpy.html` file right after the `<body>` tag, and save it.
+A best practice when developing with Python is to organize
+your code into multiple modules, namely `.py` files.
+Each Python module would contain their own set of functions and objects 
+that are logically related, and can be used by other modules via `import`
+statements. The same principle can be similarly applied to PyScript apps!
 
-> ✅ This example is now complete! Let's open the `pyscript_meets_numpy.html` local file in the browser.
+By default, all the apps on pyscript.com include a `main.py` module, which
+is automatically referenced by the `<script type="py">` via the `src`
+attribute. We would now need to understand how it would be possible to
+avoid writing _everything_ inside the `main.py`, but instead modularize
+our implementation across multiple `.py` files.
 
-<a name="2_output"></a>
+In the case of our app, we would ideally want to keep all the logic to
+generate the 3D voxel plot data (using `numpy`), from the code
+to manipulate the DOM, and program widgets' interactions (using `pyscript`).
 
-Now everything should be working as expected! 🎉
-You should be able to see the output of the code on your page thanks to the use of the `display` function:
+Let's create then a new `cubes.py` module in our PyScript app. To do so,
+please click on the "New File" button (identified by a `+` icon in top right
+corner of the leftmost editor pane).
+If you now click on the file, the `cubes.py` module will appear as a new tab 
+in the code editor.
+
+Let's now write the code for our `cubes.py` module:
+```python
+# cubes.py
+import numpy as np
+import numpy.typing as npt
+from itertools import permutations, combinations_with_replacement
+from dataclasses import dataclass
+
+
+@dataclass
+class CubeOpts:
+    x: int = 3
+    y: int = 3
+    z: int = 3
+    border_col: str = "#BFAB6E"
+    inner_col: str = "#7D84A6"
+
+    @property
+    def shape(self):
+        return (self.x, self.y, self.z)
+
+    @staticmethod
+    def _upscale(data: npt.ArrayLike):
+        size = np.array(data.shape) * 2
+        data_e = np.zeros(size - 1, dtype=data.dtype)
+        data_e[::2, ::2, ::2] = data
+        return data_e
+
+    def _mark_borders(self):
+        def to_slice(t):
+            pos, ax = t
+            return ax if ax != ":" else slice(0, self.shape[pos])
+
+        data = np.zeros(self.shape, dtype=bool)
+        boundaries = combinations_with_replacement([0, -1], r=2)
+        for x1, x2 in boundaries:
+            indices = permutations([x1, x2, ":"], r=3)
+            for axes in indices:
+                x, y, z = tuple(map(to_slice, enumerate(axes)))
+                data[x, y, z] = True
+
+        return data
+
+    @staticmethod
+    def _get_indices(shape: tuple):
+        x, y, z = np.indices(np.array(shape) + 1).astype(float) // 2
+        # Shrink the gaps
+        x[0::2, :, :] += 0.05
+        y[:, 0::2, :] += 0.05
+        z[:, :, 0::2] += 0.05
+
+        x[1::2, :, :] += 0.95
+        y[:, 1::2, :] += 0.95
+        z[:, :, 1::2] += 0.95
+        return x, y, z
+
+    def generate_voxels(self):
+        # build up the numpy logo
+        n_voxels = self._mark_borders()
+        facecolors = np.where(n_voxels, "#FFD65DC0", "#7A88CCC0")
+        edgecolors = np.where(n_voxels, self.border_col, self.inner_col)
+        filled = np.ones(n_voxels.shape)
+
+        # upscale the above voxel image, leaving gaps
+        filled = self._upscale(filled)
+        fcolors = self._upscale(facecolors)
+        ecolors = self._upscale(edgecolors)
+        indices = self._get_indices(filled.shape)
+
+        return indices, filled, fcolors, ecolors
 
 ```
-NDArray a:
-[[ 0  1  2  3  4]
- [ 5  6  7  8  9]
- [10 11 12 13 14]]
-a.shape: (3, 5)
-a.ndim: 2
-a.dtype.name: int32
-type(a): <class 'numpy.ndarray'>
-b: [6 7 8]
-type(b): <class 'numpy.ndarray'>
+
+The first thing we may notice about this module is that it does not have 
+any specific PyScript dependency (see `import` statements on the very top).
+Therefore, the `cubes.py` module would be no different if we were running
+our code in a desktop app instead of the browser.
+
+> 💡 This is quite an important feature of the PyScript platform to highlight.
+> And even more so if using the default Pyodide interpreter, thanks to
+> packages support via `micropip`, and an almost complete port of the Python standard library.
+
+The module defines a `CubeOpts` dataclass which encapsulates the parameters
+(and default values) for cubes settings, along with the logic to generate the 3D 
+voxels, i.e., the `CubeOpts.generate_voxels()` method.
+
+Now, in order to use the `cubes.py` module in our app, we need to _configure_ it within
+our app. 
+
+> 🎮 If you are curious, you could first try adding an import statement in `main.py`, 
+> e.g., `from cubes import CubeOpts`, and see what happens. Please also remember to keep
+> the JavaScript console open.
+
+
+To add Python modules dependencies for our app, we need to add a new `files` directive
+in the `pyscript.toml` file, under the `[[fetch]]` section:
+
+```
+packages = ["numpy", "matplotlib"]
+
+[[fetch]]
+files = ["./cubes.py"]
 ```
 
-### ⚙️ How it works: 📦 Pyodide Packaging, Micropip, and WASM
+Please note that there can be multiple `[[fetch]]` sections in the configuration,
+each with their own specific rules to configure _any resource_ we wish to
+bundle with our app. Please refer to the PyScript [documentation](https://docs.pyscript.net/2023.09.1.RC2/user-guide/#files)
+for further details on supported configuration options.
 
-As briefly mentioned, the `<py-config>` tag can be used to declare the
-dependencies for our PyScript app.
-This tag directly maps to the underlying Pyodide mechanism to install external packages, namely `micropip`.
+Let's now finish our implementation by writing the `main.py` module:
+```python
+import matplotlib
+from matplotlib import pyplot as plt
+from pyscript import when, display, document
+from pyodide.ffi import create_proxy
+from cubes import CubeOpts
 
-At this point, you should be wondering if _any_ package in the Python ecosystem could be imported
-in the browser. If that was really the case: well done indeed! 👏
-That is a genuine good question at this point!
+matplotlib.use("agg")
+
+
+def gather_cube_options() -> CubeOpts:
+    """Collect all settings from page and instantiate a new CubeOpts object"""
+    x = int(document.getElementById("x_dim").value)
+    y = int(document.getElementById("y_dim").value)
+    z = int(document.getElementById("z_dim").value)
+    border_col = document.getElementById("border_color").value
+    inner_col = document.getElementById("inner_color").value
+    return CubeOpts(x=x, y=y, z=z, border_col=border_col, inner_col=inner_col)
+
+
+@when("click", "#btn_gen")
+@when("change", "input[type='range']")
+def generate_plot():
+    cube_opts = gather_cube_options()
+    (x, y, z), filled, fcolors, ecolors = cube_opts.generate_voxels()
+    fig = plt.figure()
+    ax = fig.add_subplot(projection='3d')
+    ax.voxels(x, y, z, filled, facecolors=fcolors, edgecolors=ecolors)
+    ax.set_aspect('auto')
+    display(fig, target="plot", append=False)
+
+
+@create_proxy
+def reset_configs(event):
+    event.preventDefault()
+    default_opts = CubeOpts()
+    sliders = document.querySelectorAll("input[type='range']")
+
+    for axis, slider in zip(("x", "y", "z"), sliders):
+        def_axis = getattr(default_opts, axis)
+        slider.value = def_axis
+        slider.nextElementSibling.value = def_axis
+    document.getElementById("border_color").value = default_opts.border_col
+    document.getElementById("inner_color").value = default_opts.inner_col
+    document.getElementById("btn_gen").click()
+
+
+btn_reset = document.getElementById("btn_reset")
+btn_reset.addEventListener("click", reset_configs)
+
+
+def enable_all_input_components():
+    # Enable all input components for interactivity
+    input_components = document.querySelectorAll("input")
+    for component in input_components:
+        component.disabled = False
+
+enable_all_input_components()
+```
+
+> ✅ The code of our app is ready. If you hit save, and run it will be working! 🎉
+
+Every time you click on "Generate Plot" button, or interact with the sliders,
+a new 3D Voxel plot will be displayed on the page, generated by NumPy and Matplotlib.
+If you click on the "Reset" button, all the components are automatically set to their
+default values, and the default plot is generated.
+
+It's time now to discuss how the app works, and learn more about some other
+new cool features of PyScript.
+
+### ⚙️ How it works: 📦 Pyodide Packaging, interactivity, and _execution threads_
+
+First, let's focus on the packages, and the **unique** ability of Pyodide to automatically
+install Python packages, and to make them running on WASM.
+
+AS briefly mentioned in the previous section, Pyodide includes a mechanism to install 
+external packages called `micropip`.
+
+At this point, you may be wondering if _any_ Python package could be _downloaded_
+and imported in the browser. If that was the case: well done indeed! 👏
+That is a genuinely good question!
 
 The short answer to that question though is: _Not quite!_.
 
-Please remember that the last layer in our reference multi-layered architecture we introduced in
-[Exercise 1](#⚙️-13-how-it-works) is WASM, which is the ultimate target of our computation.
-And from a Python-packaging perspective, WASM would be no different than other target compile
-architectures, e.g. `x86` vs `arm`.
+First, let's remember that the last layer in our multi-layered architecture on which 
+the PyScript platform operates ends with `WASM`.
+From a mere Python-packaging perspective, WASM would be no different than any other 
+target compile architectures, e.g., `x86` or `arm`.
 
-> 💡 The key focus here is on the **instruction set**, and not on any specific hardware
-> architecture, despite the two concepts sometimes tend to be paired together, and so
-> confused as the same thing (e.g. `arm` instruction set maps to ARM/ARM-based processors).
+> 💡 The key here is on the **instruction set**, and not on any specific hardware; 
+> and admittedly these two concepts sometimes tend to be confused, and treated 
+> as the same thing. For example, the `arm` instruction set maps to 
+> ARM/ARM-based processors.
 
-However, **not all Python packages** require a target architecture. This is only the case
-of packages with external C dependencies
+However, **not all Python packages** require a target architecture. 
+This is only the case of packages with external C dependencies
 (i.e. part of their code base include external C/C++ libraries).
 
-**Pure Python packages** on the other hand can run on every CPU architecture/instruction set
-(i.e. [`none-any`](https://packaging.python.org/en/latest/specifications/binary-distribution-format/?highlight=%22none-any%22#installing-a-wheel-distribution-1-0-py32-none-any-whl)), and therefore 
-they can also run on WASM!!
+Python-only packages can run on every CPU architecture/instruction set
+(i.e., 
+[`none-any`](https://packaging.python.org/en/latest/specifications/binary-distribution-format/?highlight=%22none-any%22#installing-a-wheel-distribution-1-0-py32-none-any-whl)),
+and therefore they can run on `WASM` too!!
 
-So, we are indeed capable of _loading_ **any** pure Python package in our PyScript application!
+So, we are indeed capable of _loading_ **any** Python-only package in our PyScript application!
 
 > 💡 There's more!
-> In the `packages` directive in `<py-config>` we can either specify the name of a package,
-> or include directly the URL of the Python wheel we want to install.
+> In the `packages` directive of the `pyscript.toml` configuration file we can either 
+> include the name of a package we want to use,
+> or a URL of the Python wheel we want to install (e.g. from PyPI).
 > If a name is specified, the underlying Pyodide/micropip will be automatically searching for
-> the package name on PyPi and download it!
+> the package name on PyPI and download it!
 
-And what about non-pure Python packages?
-Moreover, **the majority** of Python packages for numerical and scientific computing have external
-C-dependencies to boost the performance, `numpy` included!!How did that work?
+And what about other Python packages?
+In facts, **the majority** of Python packages for numerical and scientific computing have external
+C-dependencies to boost the performance, `numpy`, and `matplotlib` included!! So, how does it work?
 
-The good news is that `Pyodide` has a very _long_ [list of packages](https://pyodide.org/en/0.23.2/usage/packages-in-pyodide.html) already included in the distribution which have been already
-compiled for the `WASM32` target!.
-This list includes a lot of the _most popular_ Packages in the PyData stack, like `scipy`, `pandas`,
-`scikit-image`, `scikit-learn`, `matplotlib`.
+The good news is that Pyodide has a very _long_ 
+[list of packages](https://pyodide.org/en/stable/usage/packages-in-pyodide.html) already included in the 
+distribution, compiled for the `WASM32` target, and ready to use!.
+This list includes a lot of (_but it is not limited to_, ed.) the _most popular_ packages
+for data science, like `pandas`, `scikit-image`, `scikit-learn`, `numpy`, and `matplotlib`.
 
-So what _really_ happened when we included the `packages = ["numpy"]` in our `<py-config>` specification,
+So what _really_ happened when we included the `packages = ["numpy", "matplotlib"]` in our configuration
 was that underneath Pyodide was **loading** the pre-built `numpy` package included in the distribution.
 
 > 🎮 In order to understand better what is actually happening under the hood, let's try to _refresh_ the page, 
@@ -266,42 +494,138 @@ was that underneath Pyodide was **loading** the pre-built `numpy` package includ
 > The relevant (`log`) messages you should be seeing in the console are:
 >
 ```bash
-[pyscript/pyodide] importing pyscript
-[pyscript/pyodide] Found packages in configuration to install. Loading micropip...
-[pyscript/pyodide] pyodide.loadPackage: micropip
-[pyscript/pyodide] Loading micropip, packaging
-[pyscript/pyodide] Loaded packaging, micropip
-[pyscript/pyodide] pyodide loaded and initialized
-[pyscript/main] Python ready!
-[pyscript/main] Setting up virtual environment...
-[pyscript/main] Packages to install:  ['numpy']
-[pyscript/main] Fetching urls:
-[pyscript/pyodide] micropip install numpy
-[pyscript/main] Fetched all paths
-[pyodide.asm.js:9] Loading numpy
-[pyodide.asm.js:9] Loaded numpy
+Loading numpy, matplotlib, ... matplotlib-pyodide
 ```
+
+Now, let's focus on the logic of the app, and how PyScript enables some very cool integrations.
+First, you may have noticed that all the HTML components are initially disabled, until the app 
+finishes loading.
+This has been done **on purpose**, since bootstrapping the Pyodide interpreter, plus the
+(_not so light_) additional packages we need to download and install (i.e. NumPy and Matplotlib),
+would require some extra time.
+
+In fact, if you notice some delay the first time you run the app, it's because of all the downloads 
+happening in background. Future executions though will be much faster as the Pyodide interpret
+it's downloaded once, and then stored in the browser cache.
+
+Therefore, to improve the user experience of our app, all the components are dynamically enabled
+when the rest of our code has run. This is done by the `enable_all_input_components` functions 
+defined in `main.py` (lines `51-57`).
+
+At a first glance, the code in the `main` module contains all functions to program the interactivity
+of our app. Anything that is instead more related to the actual Python/NumPy logic is demanded to
+`cubes` module. As already mentioned, similar distribution of functionalities and responsibilities 
+across multiple Python modules is a best development practice for PyScript apps.
+
+The two main functions that control the interactivity of the widgets are `reset_configs`, 
+and the `generate_plot`, mapped to the "Reset" button and the "Generate Plot" button, respectively.
+These functions have been programmed as event handlers using two alternative methods: the former
+adopts **Pyodide-specific** APIs, while the latter uses PyScript (higher-level) APIs. 
+These two approaches have been intentionally included in the example to showcase how PyScript 
+provides more intuitive and more _pythonic_ APIs over the underlying interpreters.
+
+First, the `reset_configs` function, is decorated by the
+[`create_proxy`](https://pyodide.org/en/stable/usage/api/python-api/ffi.html#pyodide.ffi.create_proxy),
+function, imported from the [`pyodide.ffi`](https://pyodide.org/en/stable/usage/api/python-api/ffi.html) package. This function is necessary to convert a Python function into a JavaScript callable
+proxy in order to be used as handler in combination with the `addEventListener` function 
+(see lines `47-48`)
+
+The `generate_plot` function, on the other hand, adopts the `@when` decorator imported directly
+from `pyscript`. This decorator expects the JavaScript event as first parameter (e.g. `click`, or
+`change`), and a valid `selector` to be used internally by `document.querySelectorAll`.
+In our example we provide the `id` of the "Generate Plot" button (i.e. `#btn_gen`), as well as
+a selector for all input widgets of `type=color` (i.e. `input[type="color"]`).
+With this simple decorator we abstracted from low-level details in our code (i.e., PyScript will 
+automatically create the `JSProxy` callable object for us, as required by Pyodide) a avoided
+boilerplates with a much more intuitive solution.
+
+> 💡 At the time of writing, the `when` decorator is only supported with the Pyodide interpreter.
+> When this will also become available with MicroPython, using the `@when` decorator would also
+> guarantee portability of our app across multiple interpreters.
+
+As a result, every time we click on the "Generate Plot" button, or we interact with any of the
+three sliders, the `generate_plot` function will be invoked, which in turn instantiate the
+`CubeOpts` instance, plots the generated voxels using `matplotlib` APIs, and add the graph to
+the document using the PyScript `display` function. The `append=False` parameter is used so that
+each time the old plot will be replaced by the newly generated one.
+
+The last thing worth mentioning regards interactivity, and how the execution of the Python code
+that runs in the browser really works.
+If we try to move the sliders towards the end of their scales (e.g. `x=14`, `y=14`, `z=10`) we will
+notice a certain delay from the moment we set the value, and the moment when the plot is finally
+displayed.
+This is because the code that is running in our browser to generate this enormous amount of 3D
+cubes would need some **extra time**. _So far, so good_. Nothing particularly surprising there.
+Unless, we would focus on the responsiveness of our app, while our code is running.
+Moving the slides to higher values was indeed just the excuse to make the computation heavier, 
+so to highlight the issue.
+You may have noticed that the whole page _freezes_ until the plot is generated.
+If you haven't noticed it, please try to have a look at the slider widget while the code is running:
+it is automatically disabled.
+This happened because our Python code is being executed directly in the _main thread_, where also
+the rest of the normal execution of the browser is also happening. Therefore, the browser needs
+to pause, and _wait_ until our code is finished!
+This behavior is certainly not ideal! We don't want to completely freeze the page while we run our
+Python code. Luckily the web has solved this issue already, using [Web Workers](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers).
+
+Web Workers are a simple means for web content to run execution in background threads, without
+**blocking** nor interfering with the _main thread_. 
+
+This looks **exactly** what we would need to solve our "UI-freeze" issue 🎉.
+And now for the _really_ interesting part! If you want your Python script to run in a web worker,
+simply add the attribute `worker` to the `<script type="py">` tag:
+
+```html
+<script type="py" src="./main.py" config="./pyscript.toml" worker></script>
+```
+
+If you **save** and **run** the app after the change, you will notice that the page will
+not freeze anymore, as each call to our Python code will be _non-blocking_.
 
 ### 🎁 Wrap up
 
+In this Chapter we worked on a PyScript app to dynamically generate 3D voxel plots
+using the NumPy and Matplotlib packages.
+
 We explored how it is possible to include external (Python)
-dependencies into our PyScript application. In particular, we learnt how to
-`import numpy as np` in our code.
+dependencies into our PyScript application thanks to the Pyodide
+built-in `micropip` feature, as well as custom Python modules.
+These are possible thanks to the `packages` and the `files` directives in the `pyscript.toml`
+configuration files.
 
-Importing NumPy is the first (and very important) step towards being able to
-create Python data apps directly in the browser.
+We also learned two alternative ways to program the interactivity with HTML widgets using
+either Pyodide low-level APIs, and the PyScript `@when` decorator. Using the `@when`
+decorator we could appreciate how PyScript allows to abstract from lower-level
+details in our Python code, avoiding useless boilerplate.
 
-To do so, we introduced the new `<py-config>` tag that PyScript provides, along
-with the corresponding `packages = [...]` directives to include packages.
+Last but not least, we discovered a **new** and very easy option PyScript has introduced
+to support Web Workers. We first emphasized the issue of running our (heavy) computation
+directly in the main thread, and then we just added the attribute `worker` to the 
+`<script type="py">` tag, and that is done!
 
 ### 🥡 Take away lessons
 
-- PyScript allows the declaration of dependencies via the `<py-config>` special tag.
-- The `<py-config>` tag directly integrates with `micropip.install` module of Pyodide to
+- PyScript apps can be modularized by distributing the code across multiple modules (`.py` files).
+- Adding custom modules to a PyScript app would be as easy as adding `files=[...]` directive
+in the `pyscript.toml` configuration file.
+- PyScript also allows to declare (external) dependencies via the `packages` directive.
+- The PyScript config tag directly integrates with `micropip.install` module of Pyodide to
 install external dependencies.
 - Any pure Python package can be _installed_ and used in the browser.
 - Python packages with external C-dependencies (e.g. `numpy`) can only be used if there exist corresponding
 Python wheels packages targeting the `wasm32` instruction set.
 - Pyodide includes a very long list of [supported packages](https://pyodide.org/en/stable/usage/packages-in-pyodide.html), 
 built-in within the Python distribution.
-- This list of Pyodide packages includes the majority of the most popular Python packages in the scientific stack.>
+- This list of Pyodide packages includes the majority of the most popular Python packages in the pydata stack.
+- (At the time of writing) The `packages` directive with the MicroPython interpreter is
+simply ignored, as MicroPython does not allow installing external packages.
+- PyScript provides the `@when` decorator to be used to automatically transform any Python function
+into a JavaScript proxy event handler.
+- To program a JS proxy using Pyodide lower-level APIs we need to use `pyodide.ffi.create_proxy`,
+and manually attach the handler to the event.
+- We expanded on threads, and exacution in the browser, and we learnt how easy is to enable
+the execution of our code into Web Workers.
+- Web Workers are a simple means for web content to run execution in background threads, without
+**blocking** nor interfering with the _main thread_.
+- To enable worker execution it would be just needed to add the `worker` attribute to the 
+`<script type="py">` element.
