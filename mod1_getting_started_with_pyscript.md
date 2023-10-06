@@ -1,10 +1,10 @@
 # Getting Started with PyScript
 
-In this module, we will learn how to get started with PyScript.
+In this course, we will learn how to get started with PyScript.
 We will learn how it works, how to work with it, and will explore
 the many features PyScript provides to create rich web applications.
 
-## How to navigate through the content
+## How to navigate through content
 
 In each chapter, we will work on a single PyScript app aimed at exploring specific
 features, and capabilities offered by the platform.
@@ -12,16 +12,17 @@ features, and capabilities offered by the platform.
 You are totally free to choose the pace you navigate through content, depending on your
 background, your coding skills, or any particular interest in the covered topics.
 
-There will be five sections, each sharing the same content organization:
+There will be five sections, each sharing the same organization:
 - ⏳ Get Ready
 - 🧑‍💻 Hands on
 - ⚙️ How it works
 - 🎁 Wrap up
 - 🥡 Take away lessons
 
-> 💡 Block-quote paragraph will also be included to highlight specific concepts, or for general remarks.
+> Block-quote paragraphs will also be included to highlight specific concepts, 
+> or for general remarks.
 
-We will be using different emojis to mark block-quote paragraphs of different nature.
+We will use different emojis to mark block-quote paragraphs of different nature.
 
 The most common one will be:
 
@@ -30,16 +31,14 @@ The most common one will be:
 
 But you will also find:
 
-> ✅ To mark the end of the coding part, so that we can proceed to run our example,
+> ✅ To mark the end of a coding exercise, where will be ready to run our example,
 > and discuss how it works.
 
 > 🎮 To emphasize that we will use, or open the JavaScript console
 > (_and_ 🎮 _is what you'd get if you search for "console" emoji_, ed.)
 
 Some chapters also include a special section (marked by the 🔍 emoji)
-dedicated to expand on particular topics introduced earlier in the chapter.
-Feel free to skip those sections while you are working on the exercises, and
-to come back at them later at any time.
+dedicated to expand on particular topics introduced in the chapter.
 
 ## How to work with the hands-on exercises
 
