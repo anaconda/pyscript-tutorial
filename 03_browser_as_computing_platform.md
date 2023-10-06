@@ -44,9 +44,9 @@ update the app metadata, accordingly:
 Similarly, please update the metadata contained in the `pyscript.toml` file.
 
 In this app, we will demonstrate how it is possible to (dynamically) generate 3D plots using
-NumPy and [Matplotlib](https://matplotlib.org/) running in the browser via PyScript.
+NumPy and [Matplotlib](https://matplotlib.org/) running in the browser, via PyScript.
 
-> 💡 If you are not completely familiar with these two Python libraries, don't worry! 
+> 💡 If you are not familiar with these two Python libraries, don't worry! 
 > It is completely fine, and it won't be necessary to have previous experience with these
 > packages to work on our app! Also, we will explain in details the crucial parts of our 
 > implementation in the How-to section. Let's just say that NumPy and Matplotlib are the
@@ -172,7 +172,7 @@ You can install it by calling:
 See https://pyodide.org/en/stable/usage/loading-packages.html for more details.
 ```
 
-First thing to highlight from this is: **Error Handling**.
+First thing to highlight here is: **Error Handling**.
 
 PyScript is giving direct access to the Python traceback in the browser.
 This is indeed a huge deal, as clear _error reporting_ is a crucial part in coding.
@@ -575,7 +575,7 @@ it is automatically disabled by the browser, and becomes enabled again when the 
 
 This happens automatically, and it is due to the fact that our Python code gets executed directly in 
 the _main thread_, where also the rest of the normal execution of the browser is also happening. 
-So the code is serialised in the main thread, and the browser sets itself in busy waiting 
+So the code is serialized in the main thread, and the browser sets itself in busy waiting 
 until our code is finished!
 This behavior is certainly not ideal!
 
