@@ -303,7 +303,6 @@ without changing a single line of code, although we decided to use the latter as
 (b) we did not need any of the _extra_ features provided by Pyodide. In other words, the (subset of the) 
 Standard library MicroPython provides was enough to program the core logic of the app.
 
-
 ### 🔍 Web Development and CORS
 
 If you were to open the `index.html` file as a local HTML on your file system, something interesting would happen.
