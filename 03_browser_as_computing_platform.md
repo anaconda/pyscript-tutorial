@@ -433,7 +433,7 @@ default values, and the default plot is generated.
 It's time now to discuss how the app works, and learn more about some other
 new cool features of PyScript.
 
-### ⚙️ How it works: 📦 Pyodide Packaging, interactivity, and _execution threads_
+### ⚙️ How it works: 📦 Pyodide Packaging, interactivity, and FFI with Pyodide
 
 First, let's focus on the packages, and the **unique** ability of Pyodide to automatically
 install Python packages, and to make them running on WASM.
@@ -549,27 +549,41 @@ three sliders, the `generate_plot` function will be invoked, which in turn insta
 the document using the PyScript `display` function. The `append=False` parameter is used so that
 each time the old plot will be replaced by the newly generated one.
 
+### 🔍 Runtime Threads, Interactivity, and Blocking Calls
+
 The last thing worth mentioning regards interactivity, and how the execution of the Python code
 that runs in the browser really works.
+
 If we try to move the sliders towards the end of their scales (e.g. `x=14`, `y=14`, `z=10`) we will
 notice a certain delay from the moment we set the value, and the moment when the plot is finally
 displayed.
-This is because the code that is running in our browser to generate this enormous amount of 3D
-cubes would need some **extra time**. _So far, so good_. Nothing particularly surprising there.
-Unless, we would focus on the responsiveness of our app, while our code is running.
-Moving the slides to higher values was indeed just the excuse to make the computation heavier, 
-so to highlight the issue.
-You may have noticed that the whole page _freezes_ until the plot is generated.
-If you haven't noticed it, please try to have a look at the slider widget while the code is running:
-it is automatically disabled.
-This happened because our Python code is being executed directly in the _main thread_, where also
-the rest of the normal execution of the browser is also happening. Therefore, the browser needs
-to pause, and _wait_ until our code is finished!
-This behavior is certainly not ideal! We don't want to completely freeze the page while we run our
-Python code. Luckily the web has solved this issue already, using [Web Workers](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers).
 
-Web Workers are a simple means for web content to run execution in background threads, without
-**blocking** nor interfering with the _main thread_. 
+This is because the code that is running in our browser to generate this enormous amount of 3D
+cubes would need **extra time** to complete.
+Well, we are just saying that "more computation requires more completion time".
+And to be fair, if we would try to run the same code on our desktop (i.e., and not inside the browser), 
+it would similarly take some time to generate the plot.
+_So far, so good_. Nothing particularly surprising here.
+Unless, we would focus on the responsiveness of our app, while our code is running!
+
+Moving the sliders to higher values was indeed just the excuse to make the computation heavier, 
+so to highlight the issue.
+
+You may have noticed that the whole page _freezes_ until the plot is generated.
+If you haven't noticed that, please try to have a look at the slider widget while the code is running:
+it is automatically disabled by the browser, and becomes enabled again when the plot is displayed.
+
+This happens automatically, and it is due to the fact that our Python code gets executed directly in 
+the _main thread_, where also the rest of the normal execution of the browser is also happening. 
+So the code is serialised in the main thread, and the browser sets itself in busy waiting 
+until our code is finished!
+This behavior is certainly not ideal!
+
+Luckily the web has solved this issue already, using 
+[Web Workers](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers).
+
+Web Workers are a simple means for any web content to run execution in background threads, without
+**blocking** nor interfering with the _main thread_.
 
 This looks **exactly** what we would need to solve our "UI-freeze" issue 🎉.
 And now for the _really_ interesting part! If you want your Python script to run in a web worker,
@@ -581,6 +595,11 @@ simply add the attribute `worker` to the `<script type="py">` tag:
 
 If you **save** and **run** the app after the change, you will notice that the page will
 not freeze anymore, as each call to our Python code will be _non-blocking_.
+
+> 💡 Support for Python Web Workers (i.e., web workers that can run Python code) is indeed part of the **new** 
+> main features introduced in the latest release of PyScript (along with support for multiple interpreters)!
+> An in full PyScript-style, the feature is offered to the user to be _straightforward_ to use, and _simple_
+> to understand! All the low-levels, and internal technicalities are handled by the platform itself.
 
 ### 🎁 Wrap up
 
