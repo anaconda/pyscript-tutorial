@@ -328,12 +328,26 @@ class CubeOpts:
 
 The first thing we may notice about this module is that it does not have 
 any specific PyScript dependency (see `import` statements on the very top).
-Therefore, the `cubes.py` module would be no different if we were running
-our code in a desktop app instead of the browser.
 
-> 💡 This is quite an important feature of the PyScript platform to highlight.
-> And even more so if using the default Pyodide interpreter, thanks to
-> packages support via `micropip`, and an almost complete port of the Python standard library.
+Therefore, the `cubes.py` module would be no different if we were running
+our code in a desktop app instead of the browser!
+This is quite an important feature of the PyScript platform to highlight.
+And even more so if using the default Pyodide interpreter, thanks to
+packages support via `micropip`, and an almost complete port of the Python standard library.
+
+> 💡 You may have noticed that some of the methods in the `CubeOpts` data class
+> are named with an initial `_`. If you did, well done!
+> These methods are intended to be part of the _internal_ (private) class API
+> and so not to be used in code that is not part of the class implementation
+> itself. This is a standard convention in Python to differentiate the private
+> from the public API of a class. In other languages (e.g., C++ or Java) this
+> distinction is clearly marked by dedicated keywords, and language constructs:
+> `private` and `public`. Python does not have similar constructs, so the
+> distinction is made via naming conventions.
+> If you are interested in more conventions, and coding style in Python, I would
+> strongly recommend reading [`PEP8`](https://peps.python.org/pep-0008/):
+> "Style Guide for Python Code".
+
 
 The module defines a `CubeOpts` dataclass which encapsulates the parameters
 (and default values) for cubes settings, along with the logic to generate the 3D 
