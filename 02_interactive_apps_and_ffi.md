@@ -2,7 +2,7 @@
 
 When using PyScript, writing Python in the browser is as easy as including your Python code
 within the `<script type="py">` tag.
-Whilst this is more than acceptable when working on _simple_ examples to familiarize with the
+While this is more than acceptable when working on _simple_ examples to familiarize with the
 new platform, this can easily become an issue when working on much more complicated apps.
 
 Moreover, you might have noticed that there is a complete lack of support from code editors
@@ -19,8 +19,8 @@ development experience.
 
 In this chapter, we are about to create an interactive dice roller app. The user can select the number of
 dice, and the number of sides on each die, namely a `d4`, `d6`, `d8`, `d12`, and `d20`.
-This app will be the opportunity to learn a bit in details how interactions with the browser works
-in PyScript (e.g. `on-click`), and what features PyScript provides to integrate with the DOM, and
+The app will be the opportunity to learn a bit in details how interactions with the browser works
+in PyScript (e.g. `on-click` events), and what features PyScript provides to integrate with the DOM, and
 JavaScript [event handling](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events).
 
 ### ⏳ Get Ready
@@ -28,7 +28,7 @@ JavaScript [event handling](https://developer.mozilla.org/en-US/docs/Learn/JavaS
 To get starter, let's **duplicate** our PyScript App 
 [template](https://pyscript.com/@leriomaggio/pyscript-app-template/latest)
 by clicking on the "Clone Project <svg viewBox="0 0 32 32" width="1.2em" height="1.2em" class="-rotate-90 text-base sm:text-sm"><path fill="currentColor" d="M26 18a3.996 3.996 0 0 0-3.858 3H17V11h5.142a4 4 0 1 0 0-2H17a2.002 2.002 0 0 0-2 2v4H9.858a4 4 0 1 0 0 2H15v4a2.002 2.002 0 0 0 2 2h5.142A3.993 3.993 0 1 0 26 18Zm0-10a2 2 0 1 1-2 2a2.002 2.002 0 0 1 2-2ZM6 18a2 2 0 1 1 2-2a2.002 2.002 0 0 1-2 2Zm20 6a2 2 0 1 1 2-2a2.002 2.002 0 0 1-2 2Z"></path></svg>" button.
-Cloning a project is a feature offered by pyscript.com to fork an existing app, and bring its copy into 
+**Cloning** a project is a feature offered by pyscript.com to fork an existing app, and bring its copy into 
 your own dashboard, so you can start working on it, independently.
 In this case, the cloned app will be just the skeleton of the app we are about to create.
 
@@ -47,8 +47,18 @@ Now, please open the `index.html` file, and update the `<title>` tag with a more
 
 ### 🧑‍💻 Hands on: Playing with random, and web events
 
-Let's setup our `index.html` page first, with all the required components. We will move to
-program the core logic in Python afterwards.
+Let's setup our `index.html` page first, with all the required components. 
+We will move to program the core logic in Python afterwards.
+
+At a first glance to the `index.html` file, you may have noticed that our app template
+includes [Bootstrap](https://getbootstrap.com/docs/5.3) that is a popular and well-known
+CSS framework to develop responsive web apps.
+
+> 💡 Responsive Web apps are apps that are automatically able to adapt to
+> multiple screen sizes, and devices, so that they can be similarly effective
+> regardless we will open them on a computer, or from the browser of mobile phones!
+> Let's bear this in mind, as we will quickly put this hypothesis to test at the
+> end of this chapter!
 
 The `<!--  Add HTML TAGS here -->` placeholder can now be replaced with the following HTML:
 ```html
@@ -142,14 +152,17 @@ The `<!--  Add HTML TAGS here -->` placeholder can now be replaced with the foll
 </div>
 ```
 
-The listing is quite articulate, so I would recommend hit the `Save` 
+The listing is quite articulate, so I would recommend hitting the `Save` 
 button, and then the `Run` button to see the result.
-The page contains two series of buttons (i.e. button groups): the first to select
+The page contains two series of buttons (also referred to as "button groups").
+The first to select
 the number of dice we want to roll; the second to choose which die we should be 
 rolling. The `Roll` button shown at the bottom of the page will trigger the rolling.
 The `<div id="outcome">` element will display the generated result.
 The graphics of the button have been gathered from `rgbstudios.com`, emulating
 their (much more comprehensive) [dnd-dice](https://rgbstudios.org/projects/dnd-dice) app.
+The very difference with that app though is that it is **not** using any PyScript nor
+any Python at all, differently from what we are about to do!
 
 Now onto the Python code! First things first, let's switch interpreter to
 **Micropython**:
@@ -238,8 +251,9 @@ The core of our implementation works around the `pyscript.document` object:
 from pyscript import document
 ```
 
-The `document` object is a proxy for the page [`document object`](https://developer.mozilla.org/en-US/docs/Web/API/Document). Its APIs are mapped `1:1` 
-with the corresponding JavaScript counterpart (e.g. `document.getElementById`
+The `document` object is a proxy for the page [`document object`](https://developer.mozilla.org/en-US/docs/Web/API/Document). 
+Its APIs are mapped `1:1` 
+with the corresponding JavaScript counterpart (e.g., `document.getElementById`
 for both), and can be used in PyScript to access and/or manipulate the `DOM.
 
 For example, in the last two lines of our Python code:
@@ -248,8 +262,7 @@ For example, in the last two lines of our Python code:
 roll_btn = document.querySelector("#roll")
 roll_btn.addEventListener("click", dice_roll)
 ```
-
-we first select the `Roll` button tag by its id (i.e. `id=roll`), and then we
+We first select the `Roll` button tag by its `id`` (i.e. `id=roll`), and then we
 invoke its `addEventListener` method to associate to the selected button element
 our `dice_roll` (**Python**!) function as handler.
 In other words, from now on, every time we will click on the `Roll` button, our
@@ -261,7 +274,7 @@ in the browser. Thanks to the `FFI`, we are able to proxy JavaScript
 objects as Python objects (e.g. `roll_btn`), and use Python functions
 as JavaScript-equivalent event handlers.
 
-Furthermore, the same FFI can be used regardless of the selected Python interpreter 
+Furthermore, similar FFI can be used regardless of the selected Python interpreter 
 we are using, i.e. `pyodide` or `micropython`.
 
 > ⚠️ At the time of writing, a complete feature parity between Pyodide and 
@@ -279,18 +292,33 @@ elements, and the rolling is performed.
 Finally, the `innerHTML` attribute is used to inject the outcome badges in the `<div id="outcome">`
 tag, and the `opacity` style attribute of its container set to `1` to make it visible.
 
-> 💡 For the mere sake of curiosity, please try to change the interpreter from Micropython
-> back to the default Pyodide (i.e. `<script type="py"..>`). 
-> Everything should still be working the same way, but you will notice a little delay 
-> (depending on your internet connection) when running the app on Pyodide. 
-> This is mainly due to the fact that the Pyodide interpreter is bigger, and takes a few 
-> seconds more to download.
+For the mere sake of curiosity, please try to switch the interpreter from Micropython
+back to the default Pyodide. To do so you would only need to change the value of the 
+`type` attribute in the `<script>` tag: `<script type="py"..>`.
+If you then hit "save" and then "run", everything should still be working the same way.
+And all without touching a single line of code! 
+
+But you should notice a little delay 
+(depending on your internet connection) when running the app on Pyodide. 
+This is mainly due to the fact that the Pyodide interpreter package file is bigger, and takes a few 
+seconds more to download, and to bootstrap. In comparison, this is one of the major 
+advantage of using Micropython.
+
+> 💡 The general rule of thumb when choosing the interpreter is: go with Micropython as it's the faster one,
+> unless you would need to (A) standard library packages not supported by MicroPython (e.g. `asyncio`
+> or `dataclasses`); or (B) need to use external packages! We will expand more on the latter in the 
+> next chapter.
+
+Now let's put our first hypothesis to test!
+If you can, try to open your pyscript.com app from your mobile phone!
+You will see that everything will work **the same** on your phone too. And here we are, porting Python apps
+on mobile, via PyScript 📱!
 
 ### 🎁 Wrap up
 
-In this example we learnt how to use PyScript to create a simple interactive web app for dice rolls.
-By doing so we discovered two new PyScript features: `pyscript.document` object, and JavaScript
-FFI. 
+In this example we learned how to use PyScript to create a simple interactive web app for dice rolls.
+By doing so we discovered two new PyScript features and APIs: `pyscript.document` object, and JavaScript
+FFI.
 The former provides access to the DOM to select and manipulate the content of the current document, 
 and the latter provides `1:1` API mapping to the JavaScript counterparts. In the app we have seen
 many examples of the DOM access and manipulation capabilities that PyScript FFI makes accessible
@@ -308,7 +336,8 @@ Standard library MicroPython provides was enough to program the core logic of th
 If you were to open the `index.html` file as a local HTML on your file system, something interesting would happen.
 Let's open up the JavaScript console to get additional clues, as always.
 
-> Access to fetch at 'file:///.../main.py' from origin 'null' has been blocked by **CORS** policy: Cross origin requests are only supported for
+> 🎮 Access to fetch at 'file:///.../main.py' from origin 'null' has been blocked by **CORS** policy: 
+> Cross origin requests are only supported for
 > protocol schemes: http, data, isolated-app, chrome-extension, chrome, https, chrome-untrusted.
 
 As a matter of facts, loading resources from unknown (`null`) origins when loading local files in the browser
@@ -349,3 +378,4 @@ your code editor.
 - Deploying a PyScript app does not require much infrastructure - just serving HTML pages. No server-side technology!
 - The `pyscript.document` is the object representation of the page's document, to access and manipulate the DOM.
 - `document` API proxies `1:1` its JavaScript counterparts (e.g. `document.querySelector`)
+- PyScript apps work in any browser, independently of the device we are using (e.g. computer, or mobile phone!)
