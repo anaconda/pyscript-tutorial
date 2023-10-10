@@ -447,7 +447,7 @@ default values, and the default plot is generated.
 It's time now to discuss how the app works, and learn more about some other
 new cool features of PyScript.
 
-### ⚙️ How it works: 📦 Pyodide Packaging, interactivity, and FFI with Pyodide
+### ⚙️ How it works: Pyodide Packaging 📦, interactivity, and FFI with Pyodide
 
 First, let's focus on the packages, and the **unique** ability of Pyodide to automatically
 install Python packages, and to make them running on WASM.
