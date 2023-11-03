@@ -615,6 +615,34 @@ not freeze anymore, as each call to our Python code will be _non-blocking_.
 > An in full PyScript-style, the feature is offered to the user to be _straightforward_ to use, and _simple_
 > to understand! All the low-levels, and internal technicalities are handled by the platform itself.
 
+Before wrapping up, did you remember that we mentioned the `worker` flag before ?
+We briefly mentioned the possibility to use this flag in conjunction with the `terminal`
+one to create an interactive Python terminal, in the browser (see [Chapter 1](./01_python_in_the_browser.md#pyscript-and-the-python-in-the-browser)).
+
+Since the execution of the Python terminal is separated from the main thread with a web worker,
+the terminal session can become interactive - so that we can effectively have a
+full-fledged Python session in the browser that we can use to debug or interact with our app code.
+
+Let's add the following tags at the bottom of our page, right before the end of the `</body>` tag, in the
+`index.html` file:
+```html
+<div class="mt-4">
+    <script type="py" terminal worker></script>
+</div>
+```
+
+A new **interactive** session of the Python interpreter will be added at the bottom of our page.
+Interestingly, the namespace accessible via the Python terminal is the one of our app. So, within
+the interactive session we could import and work with code defined in local modules, e.g., `cubes.py`.
+
+If you try to type the following code in the terminal, this is what you will get:
+```python
+>>> from cubes import CubeOpts
+>>> CubeOpts.border_col
+'#BFAB6E'
+>>> 
+```
+
 ### 🎁 Wrap up
 
 In this Chapter we worked on a PyScript app to dynamically generate 3D voxel plots
@@ -660,5 +688,7 @@ and manually attach the handler to the event.
 the execution of our code into Web Workers.
 - Web Workers are a simple means for web content to run execution in background threads, without
 **blocking** nor interfering with the _main thread_.
-- To enable worker execution it would be just needed to add the `worker` attribute to the 
+- To enable worker execution it would be just needed to add the `worker` flag to the 
 `<script type="py">` element.
+- A common use case of web worker with PyScript is in conjunction with the `terminal` flag,
+to create an interactive Python terminal in the browser.
