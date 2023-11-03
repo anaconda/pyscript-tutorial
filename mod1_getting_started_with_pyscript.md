@@ -76,8 +76,8 @@ technology, especially if you are an absolute beginner.
 
 ## Table of Content
 
-1. [PyScript and _the_ Python in the Browser](./01_python_in_the_browser.md) | [Code](https://pyscript.com/@leriomaggio/get-started-with-pyscript/latest) [App](https://leriomaggio.pyscriptapps.com/get-started-with-pyscript/latest/)
-2. [Interactive Apps and FFI](./02_interactive_apps_and_ffi.md) | [Code](https://pyscript.com/@leriomaggio/pyscript-dice-roller/latest) [App](https://leriomaggio.pyscriptapps.com/pyscript-dice-roller/latest/)
-3. [The browser is your most ubiquitous computing platform](./03_browser_as_computing_platform.md) | [Code](https://pyscript.com/@leriomaggio/3d-voxel-plot-of-numpy/latest) [App](https://leriomaggio.pyscriptapps.com/3d-voxel-plot-of-numpy/latest/)
+1. [PyScript and _the_ Python in the Browser](./01_python_in_the_browser.md) | [Code](https://pyscript.com/@leriomaggio/get-started-with-pyscript) [App](https://leriomaggio.pyscriptapps.com/get-started-with-pyscript/)
+2. [Interactive Apps and FFI](./02_interactive_apps_and_ffi.md) | [Code](https://pyscript.com/@leriomaggio/pyscript-dice-roller) [App](https://leriomaggio.pyscriptapps.com/pyscript-dice-roller/)
+3. [The browser is your most ubiquitous computing platform](./03_browser_as_computing_platform.md) | [Code](https://pyscript.com/@leriomaggio/3d-voxel-plot-of-numpy) [App](https://leriomaggio.pyscriptapps.com/3d-voxel-plot-of-numpy/)
 
 ---
