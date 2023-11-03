@@ -77,7 +77,7 @@ We will do so by replacing the placeholder comment
 
 
 ```html
-<script type="module" src="https://pyscript.net/snapshots/2023.09.1.RC1/core.js"></script>
+<script type="module" src="https://pyscript.net/snapshots/2023.11.1.RC3/core.js"></script>
 ```
 
 The `<script>` tag imports the `core.js` JavaScript
@@ -139,17 +139,6 @@ So determining where in the document the content should be added with _just_ the
 `print` Python function, is not trivial. We need something a little more flexible, and
 sophisticated!
 
-> ❗️TODO: Potentially to REMOVE - This is still kept in case py-terminal will be re-enabled before release!
----
-> 🆕 If you have worked with previous versions of PyScript, you may have noticed a difference here.
-> In PyScript classic, the output every `print` call is automatically redirected to a 
-> custom element, called 
-> [`<py-terminal>`](https://docs.pyscript.net/latest/reference/plugins/py-terminal.html#py-terminal). 
-> `<py-terminal>` is a special _plug-in_ in PyScript classic that specifically served the 
-> purpose to capture all the output on `stderr` and `stdout`. Currently plug-ins are not
-> yet supported in the latest version of PyScript, and so neither is `<py-terminal>`.
-----
-
 To add and visualize generic content in the HTML page, PyScript provides an easy-to-use
 utility function called `display`.
 
@@ -167,6 +156,50 @@ Let's change our Python code, to use the `display` PyScript function instead of 
 
 Let's now save & run our app. The preview pane will refresh, and
 you should now be seeing the Python version displayed directly in the document.
+
+Before proceeding to the next section, where we will learn how our 
+simple first PyScript app works, let's go back for a moment to the 
+`print` function, and let's discuss the ways in which this very 
+important function can be used in the browser with PyScript.
+
+Python programmers are used to use the `print` function 
+to generate output that is automatically directed to the 
+standard output (i.e., `stdout`). In fact, in standard (non-browser)
+scenarios, this function is generally used when working in a terminal,
+or within the interactive Python interpreter.
+
+Because of the crucial importance the terminal has for Python 
+programmers, PyScript makes one available in the browser.
+Enabling a new Python terminal is as easy, and as beginner friendly as 
+all the features the PyScript platform enables.
+
+Adding the `terminal` flag to the 
+`<script type="py">` tag will automatically create a read-only 
+version of the terminal, thanks to the default [`terminal`](https://docs.pyscript.net/2023.11.1.RC3/user-guide/terminal/) plug-in.
+
+When a PyScript terminal is enabled, all the `print` functions in our
+Python code will be redirected to both the JavaScript console (as per
+default behavior), and to the terminal.
+
+To test the `terminal` PyScript plugin, with the `print` function, 
+let's create a new `<script type="py">` tag after the previous one:
+
+```html
+<script type="py" terminal>
+    print(f"Running Python {sys.version} in the Browser!")
+</script>
+```
+
+If we now save, and run our app, we will see the two messages displayed on our page.
+The former is the result of the previous `display` function, and the latter appears in the
+terminal plugin, displayed as a black rectangle.
+
+> 💡 There is more! PyScript also provides the ability to create an **interactive** Python terminal.
+> To do so, both the `terminal` and the `worker` flags should be used:
+> `<script type="py" terminal worker>`.
+> Let's keep this in mind for now, and feel free to try it, if you want. We will discuss and understand
+> better what is the effect of using the `worker` flag in Chapter 3.
+
 
 ### ⚙️ How it works
 
@@ -327,3 +360,6 @@ for multiple languages.
 - All modern web browsers can run WASM along with JavaScript in their rendering engine.
 - The Python `print` function is to be used for mere logging information in the JavaScript console.
 - PyScript provides a `display` function to add content to the HTML.
+- PyScript supports a `terminal` flag to enable a Python terminal in the browser.
+- Whenever a terminal is enabled, the output of all the `print` functions is redirected in both the JavaScript
+console, and the Python terminal.
