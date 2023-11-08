@@ -77,7 +77,7 @@ We will do so by replacing the placeholder comment
 
 
 ```html
-<script type="module" src="https://pyscript.net/snapshots/2023.11.1.RC3/core.js"></script>
+<script type="module" src="https://pyscript.net/releases/2023.11.1/core.js"></script>
 ```
 
 The `<script>` tag imports the `core.js` JavaScript
@@ -175,7 +175,8 @@ all the features the PyScript platform enables.
 
 Adding the `terminal` flag to the 
 `<script type="py">` tag will automatically create a read-only 
-version of the terminal, thanks to the default [`terminal`](https://docs.pyscript.net/2023.11.1.RC3/user-guide/terminal/) plug-in.
+version of the terminal, thanks to the default 
+[`terminal`](https://docs.pyscript.net/2023.11.1/user-guide/terminal/) plug-in.
 
 When a PyScript terminal is enabled, all the `print` functions in our
 Python code will be redirected to both the JavaScript console (as per
@@ -336,7 +337,7 @@ Custom elements, namely HTML `tags` that are not part of the HTML
 treated by the browser like any other _displayable_ elements: their content is parsed as text, and
 displayed on the screen as normal text, unless special _style rules_ impose differently.
 In case of the `<py-script>` element, these rules are indeed part of
-the [`core.css`](https://pyscript.net/snapshots/2023.09.1.RC2/core.css) PyScript CSS file.
+the [`core.css`](https://pyscript.net/releases/2023.11.1/core.css) PyScript CSS file.
 Furthermore, there are some characters which are reserved in HTML (e.g. `<` or `>` or `&`).
 Therefore, if any of those characters is present in a text, they are automatically replaced by
 their corresponding [`HTML Entities`](https://developer.mozilla.org/en-US/docs/Glossary/Entity).

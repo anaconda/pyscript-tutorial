@@ -373,7 +373,7 @@ files = ["./cubes.py"]
 
 Please note that there can be multiple `[[fetch]]` sections in the configuration,
 each with their own specific rules to configure _any resource_ we wish to
-bundle with our app. Please refer to the PyScript [documentation](https://docs.pyscript.net/2023.09.1.RC2/user-guide/#files)
+bundle with our app. Please refer to the PyScript [documentation](https://docs.pyscript.net/2023.11.1/user-guide/#files)
 for further details on supported configuration options.
 
 Let's now finish our implementation by writing the `main.py` module:
