@@ -1,11 +1,13 @@
 ## PyScript and _the_ Python in the Browser.
 
-One of the very first questions I asked myself when I heard about _Python in the browser_ was:
+One of the very first questions I asked myself when I knew about _Python in the browser_ was:
 "What _kind of_ Python is actually running in the browser, and what can you really do with it ?"
 I was very curious to understand what was lying behind this technology, and what were its capabilities.
 
-In retrospect, I am still very convinced that those the are very fair questions.
-This is a completely new paradigm for Python programming.
+In retrospect, I am still very convinced that those are very fair questions to ask when
+you first think of Python in the browser.
+This is going to be a completely new paradigm for Python programming.
+
 Python developers are very used to see their favorite language
 as a technology living and nurturing best in the _back-end_, especially when it is
 the case of web development.
@@ -77,7 +79,7 @@ We will do so by replacing the placeholder comment
 
 
 ```html
-<script type="module" src="https://pyscript.net/releases/2023.11.1/core.js"></script>
+<script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
 ```
 
 The `<script>` tag imports the `core.js` JavaScript
@@ -111,7 +113,7 @@ To see it, you need to open the JavaScript Console in your Browser
 In the console, you should be now seeing the following message:
 
 ```
-Running Python 3.11.2 (main, Jul  7 2023, 05:19:00) [Clang 17.0.0 (https://github.com/llvm/llvm-project df82394e7a2d06506718cafa347b in the Browser!
+Running Python 3.11.3 (main, Sep 25 2023, 20:45:01) [Clang 18.0.0 (https://github.com/llvm/llvm-project d1e685df45dc5944b43d2547d013 in the Browser!
 ```
 
 > 🎮 The JavaScript console is a very useful tool when working
@@ -124,7 +126,7 @@ does not work in a way you might have expected,
 i.e., it is not supposed to be used to write textual content into `HTML`. 
 We will refine, and expand more on this in a moment.
 
-Let's focus now on the _version_ of Python, i.e. **Python 3.11.2**.
+Let's focus now on the _version_ of Python, i.e. **Python 3.11.3**.
 As a matter of facts, the Python we are running in the browser is neither a "special" nor 
 a "surrogate" version of the language. But rather standard Python `3.11` running in the 
 browser. This is quite amazing, as potentially the full capabilities of the language
@@ -157,13 +159,13 @@ Let's change our Python code, to use the `display` PyScript function instead of 
 Let's now save & run our app. The preview pane will refresh, and
 you should now be seeing the Python version displayed directly in the document.
 
-Before proceeding to the next section, where we will learn how our 
-simple first PyScript app works, let's go back for a moment to the 
-`print` function, and let's discuss the ways in which this very 
+Before diving into how our simple first PyScript app works (in the next section),
+let's go back for a moment to the
+`print` function, and let's discuss the ways in which this very
 important function can be used in the browser with PyScript.
 
-Python programmers are used to use the `print` function 
-to generate output that is automatically directed to the 
+Python programmers are used to use the `print` function
+to generate output that is automatically directed to the
 standard output (i.e., `stdout`). In fact, in standard (non-browser)
 scenarios, this function is generally used when working in a terminal,
 or within the interactive Python interpreter.
@@ -171,12 +173,12 @@ or within the interactive Python interpreter.
 Because of the crucial importance the terminal has for Python 
 programmers, PyScript makes one available in the browser.
 Enabling a new Python terminal is as easy, and as beginner friendly as 
-all the features the PyScript platform enables.
+all the features the PyScript platform provides.
 
 Adding the `terminal` flag to the 
 `<script type="py">` tag will automatically create a read-only 
 version of the terminal, thanks to the default 
-[`terminal`](https://docs.pyscript.net/2023.11.1/user-guide/terminal/) plug-in.
+[`terminal`](https://pyscript.github.io/docs/2024.1.1/user-guide/terminal/) plug-in.
 
 When a PyScript terminal is enabled, all the `print` functions in our
 Python code will be redirected to both the JavaScript console (as per
@@ -214,7 +216,7 @@ In the figure below, there is a high-level representation of the PyScript genera
 In the remainder of this chapter, we will try to understand
 what's the role of these components, and how they relate to each other.
 
-![PyScript General Architecture](https://docs.pyscript.net/2023.09.1/assets/images/platform.png)
+![PyScript General Architecture](https://pyscript.github.io/docs/2024.1.1/assets/images/platform.png)
 
 On the top level there is the `User Code` leveraging the features of PyScript.
 As a matter of facts, PyScript is technically referred to as a _platform_ that users can use
@@ -240,7 +242,8 @@ as a portable compilation
 target for multiple programming languages.
 Any code compiled to WASM can run with near-native performance.
 
-But the most important implication of this architectural choice could be better appreciated if we just add the last piece to our puzzle:
+But the most important implication of this architectural choice could be better appreciated 
+if we just add the last piece to our puzzle:
 
 > 💡 "Any modern web browser natively embeds a WASM engine".
 
@@ -270,16 +273,16 @@ Let's quickly change the `type` attribute in our code with `mpy` and let's see w
 When we run the version of our app using MicroPython instead of the default Pyodide, this is 
 the output the `display` will return:
 ```
-Running Python 3.4.0; MicroPython v1.20.0-297-g5fbb84a77 on 2023-07-13 in the Browser!
+Running Python 3.4.0; MicroPython v1.22.0-preview.277.g60165e3c1 on 2023-12-13 in the Browser!
 ```
 
-In conclusion, to answer more precisely to the question
+In conclusion, to answer more precisely the question
 
 > What version of Python we are running in the browser?
 
 We have learned that it depends on which interpreter PyScript is currently using underneath!
-Considering the layers of the architecture, top to bottom, we are using `PyScript 2023.09.1`, 
-which uses by default `Pyodide 0.23.4`, corresponding to `Python 3.11.2` running on `WASM`.
+Considering the layers of the architecture, top to bottom, we are using `PyScript 2024.1.1`, 
+which uses by default `Pyodide 0.24.1`, corresponding to `Python 3.11.3` running on `WASM`.
 Different versions of Pyodide correspond to different versions of the Python interpreter.
 Alternatively, if we were using `MicroPython` instead, `Python 3.4.0` is used.
 
