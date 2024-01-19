@@ -201,9 +201,9 @@ is available by default, when using the Pyodide interpreter via PyScript.
 To use any other package, one would need to load them separately.
 
 Luckily, Pyodide supports the installation of external packages using
-[`micropip`](https://micropip.pyodide.org/en/v0.2.2/project/usage.html#installing-packages-with-micropip),
+[`micropip`](https://micropip.pyodide.org/en/stable/project/usage.html#installing-packages-with-micropip),
 and PyScript has direct
-[integration](https://micropip.pyodide.org/en/v0.2.2/project/micropip-in-other-projects.html#pyscript) with `micropip`.
+[integration](https://micropip.pyodide.org/en/stable/project/micropip-in-other-projects.html) with `micropip`.
 
 To declare the dependencies in our PyScript app we would just need to include the `packages` directive within the 
 `pyscript.toml` configuration files:
@@ -373,7 +373,7 @@ files = ["./cubes.py"]
 
 Please note that there can be multiple `[[fetch]]` sections in the configuration,
 each with their own specific rules to configure _any resource_ we wish to
-bundle with our app. Please refer to the PyScript [documentation](https://docs.pyscript.net/2023.11.1/user-guide/#files)
+bundle with our app. Please refer to the PyScript [documentation](https://pyscript.github.io/docs/2024.1.1/user-guide/configuration/#files)
 for further details on supported configuration options.
 
 Let's now finish our implementation by writing the `main.py` module:
@@ -503,7 +503,7 @@ So what _really_ happened when we included the `packages = ["numpy", "matplotlib
 was that underneath Pyodide was **loading** the pre-built `numpy` package included in the distribution.
 
 > 🎮 In order to understand better what is actually happening under the hood, let's try to _refresh_ the page, 
-> and look at the messages in the JavaScript console. 
+> and look at the messages in the JavaScript console.
 >
 > The relevant (`log`) messages you should be seeing in the console are:
 >
