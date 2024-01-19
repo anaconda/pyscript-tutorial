@@ -14,7 +14,7 @@ We will work on multiple exercises as an opportunity to dive into specific PyScr
 features and functionalities, and to immediately see in practice what we 
 have learned.
 
-We will use the **latest** version of PyScript (i.e. release `2023.11.1`), 
+We will use the **latest** version of PyScript (i.e. release `2024.1.1`), 
 which brings lots of innovations and **new** features compared to any 
 previous releases.
 
