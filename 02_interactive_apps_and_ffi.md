@@ -12,7 +12,8 @@ nor any syntax highlighting when injecting Python code directly into HTML tags.
 tags support the `src` attribute to specify the URL to a Python file, similarly to what we would
 normally do when importing [JavaScript](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script) code.
 
-For this reason, the default structure of a PyScript app on pyscript.com includes three separated assets, 
+For this reason, the default structure of a PyScript app on \
+[Pyscript.com](https://pyscript.com) includes three separated assets, 
 namely `index.html`, `main.py`, and `pyscript.toml`, for HTML, Python, and app configurations, respectively.
 This organization favors best development practice, and maximizes code editor's support for a better 
 development experience.
@@ -262,7 +263,7 @@ For example, in the last two lines of our Python code:
 roll_btn = document.querySelector("#roll")
 roll_btn.addEventListener("click", dice_roll)
 ```
-We first select the `Roll` button tag by its `id`` (i.e. `id=roll`), and then we
+We first select the `Roll` button tag by its `id` (i.e. `id=roll`), and then we
 invoke its `addEventListener` method to associate to the selected button element
 our `dice_roll` (**Python**!) function as handler.
 In other words, from now on, every time we will click on the `Roll` button, our
